@@ -1,20 +1,13 @@
 import java.util.ArrayList;
 
 public class Block {
-	private String nonce;
 	private ArrayList<Transaction> transactions;
 	
-	public Block(ArrayList<Transaction> transactions,String nonce){
+	public Block(ArrayList<Transaction> transactions){
 		this.transactions = transactions;
-		this.nonce=nonce;
 	}
-	
+
 	public ArrayList<Transaction> getTransactions(){
 		return transactions;
 	}
-	public String getNonce(){
-		return nonce;
-	}
 }
-
-// @TODO: Sign transactions
