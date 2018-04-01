@@ -1,10 +1,10 @@
 
 public class Transaction {
 	private long id;
-	private User announcer;
+	private String announcer;
 	private String content;
 	
-	public Transaction(long id, User announcer, String content){
+	public Transaction(long id, String announcer, String content){
 		this.id = id;
 		this.announcer = announcer;
 		this.content = content;
@@ -28,11 +28,11 @@ public class Transaction {
 		this.id = id;
 	}
 
-	public User getAnnouncer() {
+	public String getAnnouncer() {
 		return announcer;
 	}
 
-	public void setAnnouncer(User announcer) {
+	public void setAnnouncer(String announcer) {
 		this.announcer = announcer;
 	}
 
