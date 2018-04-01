@@ -25,7 +25,10 @@ public class User {
 	}
 	
 	public ArrayList<User> selectTargetPeers(){
-		ArrayList<User> nearPeers = Main.networkGraph.get(name);
+		System.out.println("User " + this);
+		ArrayList<User> nearPeers = Main.networkGraph.get(this.getName());
+		System.out.println("User Peers" + this + " "  + nearPeers);
+
 		ArrayList<User> targets = new ArrayList<>();
 		int targetsCount = randomInt(0, nearPeers.size());
 		
