@@ -1,29 +1,35 @@
 import java.util.ArrayList;
 
 public class Ledger {
-	private static long blockSize;
-	private static long currentNonce;
-	private static ArrayList<Block> blocks;
+	private static long blockSize=5;
+	private ArrayList<Block> blocks;
 	
-	public Ledger(){
+	public Ledger(int n){
+		blocks=new ArrayList<Block>();
 		blockSize = 5;
-		currentNonce = 0;
+	}
+	public Ledger(){
+		blocks=new ArrayList<Block>();
+		blockSize = 5;
 	}
 	
-	public static void appendBlock(Block block){
+	public void appendBlock(Block block){
 		blocks.add(block);
-		currentNonce++;
 	}
-
+	public boolean containsNonce(String nonce){
+		for(Block block:blocks){
+			if(block.getNonce().equals(nonce)){
+				return true;
+			}
+		}
+		return false;
+	}
 	public static long getBlocksize() {
 		return blockSize;
 	}
 	
-	public static ArrayList<Block> getBlocks() {
+	public  ArrayList<Block> getBlocks() {
 		return blocks;
 	}
 	
-	public static long getCurrentNonce() {
-		return currentNonce;
-	}
 }
