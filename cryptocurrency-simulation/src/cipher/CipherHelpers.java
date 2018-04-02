@@ -44,23 +44,24 @@ public class CipherHelpers {
 		return new String(dectyptedText);
 	}
 
-	public static void main (String[] args) throws NoSuchAlgorithmException {
-		KeyPair kp = generateKeyPair();
-		
-		System.out.println ("-----BEGIN PRIVATE KEY-----");
-		System.out.println (Base64.getMimeEncoder().encodeToString(kp.getPrivate().getEncoded()));
-		System.out.println ("-----END PRIVATE KEY-----");
-		System.out.println ("-----BEGIN PUBLIC KEY-----");
-		System.out.println (Base64.getMimeEncoder().encodeToString(kp.getPublic().getEncoded()));
-		System.out.println ("-----END PUBLIC KEY-----");
-
-		String message = "I love Claudia";
-		byte[] messageEncrypted = encrypt(message, kp.getPrivate());
-		System.out.println("-----BEGIN messageEncrypted----");
-		System.out.println(messageEncrypted);
-		System.out.println("-----END messageEncrypted----");
-		System.out.println("-----BEGIN messageDecrypted----");
-		System.out.println(decrypt(messageEncrypted, kp.getPublic()));
-		System.out.println("-----END messageDecrypted----");
-	}
+//  You can test the functionality by uncommenting this main method and running the file
+//	public static void main (String[] args) throws NoSuchAlgorithmException {
+//		KeyPair kp = generateKeyPair();
+//		
+//		System.out.println ("-----BEGIN PRIVATE KEY-----");
+//		System.out.println (Base64.getMimeEncoder().encodeToString(kp.getPrivate().getEncoded()));
+//		System.out.println ("-----END PRIVATE KEY-----");
+//		System.out.println ("-----BEGIN PUBLIC KEY-----");
+//		System.out.println (Base64.getMimeEncoder().encodeToString(kp.getPublic().getEncoded()));
+//		System.out.println ("-----END PUBLIC KEY-----");
+//
+//		String message = "I love Claudia";
+//		byte[] messageEncrypted = encrypt(message, kp.getPrivate());
+//		System.out.println("-----BEGIN messageEncrypted----");
+//		System.out.println(messageEncrypted);
+//		System.out.println("-----END messageEncrypted----");
+//		System.out.println("-----BEGIN messageDecrypted----");
+//		System.out.println(decrypt(messageEncrypted, kp.getPublic()));
+//		System.out.println("-----END messageDecrypted----");
+//	}
 }
