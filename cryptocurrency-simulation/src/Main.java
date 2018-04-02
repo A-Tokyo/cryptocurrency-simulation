@@ -31,7 +31,7 @@ public class Main {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		networkGraph = new Hashtable<>();
+		networkGraph = new Hashtable<String,ArrayList<User>>();
 		blockSize = 5;
 		currentTransactionId = 1;
 		usersList = new ArrayList<>();
@@ -49,30 +49,30 @@ public class Main {
 		usersList.add(e);
 		
 		ArrayList<User> aPeers = new ArrayList<>();
-		aPeers.add(new User("B"));
-		aPeers.add(new User("C"));
-		aPeers.add(new User("D"));
-		aPeers.add(new User("E"));
+		aPeers.add(b);
+		aPeers.add(c);
+		aPeers.add(d);
+		aPeers.add(e);
 		
 		ArrayList<User> bPeers = new ArrayList<>();
-		bPeers.add(new User("C"));
-		bPeers.add(new User("A"));
-		bPeers.add(new User("D"));
+		bPeers.add(c);
+		bPeers.add(a);
+		bPeers.add(d);
 		
 		ArrayList<User> cPeers = new ArrayList<>();
-		cPeers.add(new User("B"));
-		cPeers.add(new User("A"));
-		cPeers.add(new User("E"));
+		cPeers.add(b);
+		cPeers.add(a);
+		cPeers.add(e);
 		
 		ArrayList<User> dPeers = new ArrayList<>();
-		dPeers.add(new User("B"));
-		dPeers.add(new User("A"));
-		dPeers.add(new User("E"));
+		dPeers.add(b);
+		dPeers.add(a);
+		dPeers.add(e);
 		
 		ArrayList<User> ePeers = new ArrayList<>();
-		ePeers.add(new User("C"));
-		ePeers.add(new User("A"));
-		ePeers.add(new User("D"));
+		ePeers.add(c);
+		ePeers.add(a);
+		ePeers.add(d);
 		
 		networkGraph.put(a.getName(), aPeers);
 		networkGraph.put(b.getName(), bPeers);
