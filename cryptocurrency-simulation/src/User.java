@@ -88,19 +88,12 @@ public class User {
 		return null;
 	}
 	public void announceTransaction(Transaction transaction) throws Exception{
-		PublicKey pk=getOriginatorPublicKey(transaction);
-		System.out.println("Authenticating transaction first before announcing to peers");
-		if(verifySignature(transaction.getSignature(),transaction.getContent(),pk)){
-			System.out.println("Authentication sucessful will forward to peers");
+		
 		ArrayList<User> targets = selectTargetPeers();
 		System.out.println(name + " : Announcing transaction " + transaction.getId() + " to " + targets);
 		
 		for(User current : targets){
 			current.receiveTransaction(transaction);
-		}
-		}
-		else{
-			System.out.println("Authentication failed therfore will not forward to peers");
 		}
 	}
 
@@ -135,6 +128,10 @@ public class User {
 		if(!transactions.contains(transaction)){
 			// Receive and see if a block can be formed
 			//System.out.println(name + " : received transaction " + transaction.getId() + " from " + transaction.getAnnouncer());
+			PublicKey pk=getOriginatorPublicKey(transaction);
+			System.out.println("User "+name+" authenticating transaction "+transaction.getId() +" first before accepting and announcing to peers");
+			if(verifySignature(transaction.getSignature(),transaction.getContent(),pk)){
+				System.out.println("Authentication sucessful, user "+name+ " will add transaction "+transaction.getId() +" and forward to peers");
 			transactions.add(transaction);
 
 			if(transactions.size() == Main.blockSize){
@@ -144,8 +141,12 @@ public class User {
 			}
 
 			// Forward to some near peers
+			
 			transaction.setAnnouncer(this.getName());
 			announceTransaction(transaction);
+			}else{
+				System.out.println("Authentication failed therfore user "+name +" will not forward to peers transaction"+transaction.getId());
+			}
 		}else{
 			System.out.println("Transaction already in "+name+" so not added or announced from user "+name);
 		}
