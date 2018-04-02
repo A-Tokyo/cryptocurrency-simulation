@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Ledger {
-	private static long blockSize=5;
+	private static long blockSize=5; //number of transactions to form block
 	private ArrayList<Block> blocks;
 	
 	public Ledger(int n){

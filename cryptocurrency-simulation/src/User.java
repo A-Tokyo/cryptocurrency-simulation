@@ -97,7 +97,7 @@ public class User {
 		if(transactions.size() == Main.blockSize){
 			createBlock();
 			transactions.clear();
-			System.out.println("Created a block and appended it to the ledger");
+			System.out.println("User "+name+" created a block and appended it to the ledger");
 		}
 		return t;
 	}
@@ -124,12 +124,14 @@ public class User {
 			if(transactions.size() == Main.blockSize){
 				createBlock();
 				transactions.clear();
-				System.out.println("Created a block and appended it to the ledger");
+				System.out.println("User "+name+" created a block and appended it to the ledger");
 			}
 
 			// Forward to some near peers
 			transaction.setAnnouncer(this.getName());
 			announceTransaction(transaction);
+		}else{
+			System.out.println("Transaction already in "+name+" so not added or announced from user "+name);
 		}
 	}
 	public String generateNonce() throws NoSuchAlgorithmException{

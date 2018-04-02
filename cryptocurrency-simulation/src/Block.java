@@ -17,4 +17,3 @@ public class Block {
 	}
 }
 
-// @TODO: Sign transactions
