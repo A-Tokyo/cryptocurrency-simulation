@@ -6,7 +6,7 @@ public class Ledger {
 	
 	public Ledger(int n){
 		blocks=new ArrayList<Block>();
-		blockSize = 5;
+		blockSize = n;
 	}
 	
 	public Ledger(){

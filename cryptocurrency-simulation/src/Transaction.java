@@ -5,9 +5,10 @@ public class Transaction {
 	private String content;
 	private String originator;
 	private byte [] signature;
+	private static long counter=1;
 	
-	public Transaction(long id,String originator, String announcer, String content,byte[]signature){
-		this.id = id;
+	public Transaction(String originator, String announcer, String content,byte[]signature){
+		this.id = counter++;
 		this.announcer = announcer;
 		this.content = content;
 		this.signature = signature;

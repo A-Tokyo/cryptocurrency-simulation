@@ -4,6 +4,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.Key;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
@@ -63,5 +64,9 @@ public class CipherHelpers {
 //		System.out.println("-----BEGIN messageDecrypted----");
 //		System.out.println(decrypt(messageEncrypted, kp.getPublic()));
 //		System.out.println("-----END messageDecrypted----");
+//		//for modulus and exponent 
+//		 RSAPublicKey rspk=(RSAPublicKey)  kp.getPublic();
+//		 System.out.println("modulus: "+rspk.getModulus().toString());
+//		 System.out.println("exponent: "+rspk.getPublicExponent().toString());
 //	}
 }

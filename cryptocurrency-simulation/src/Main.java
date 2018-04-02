@@ -8,7 +8,6 @@ import java.util.Random;
 public class Main {
 	static Hashtable<String, ArrayList<User>> networkGraph;
 	static ArrayList<User> usersList;
-	static long currentTransactionId;
 	
 	public static int randomInt(int min, int max){
 		Random r = new Random();
@@ -26,7 +25,7 @@ public class Main {
 	
 	public static void sendTransactions() throws Exception {
 		int setSize = networkGraph.keySet().size();
-		int senders = randomInt(0, setSize);
+		int senders = randomInt(1, setSize);
 		for (int i = 0; i < senders; i++) {
 			int randInt = randomInt(0, setSize-1);
 			User user = usersList.get(randInt);
@@ -40,7 +39,6 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		networkGraph = new Hashtable<>();
-		currentTransactionId = 1;
 		usersList = new ArrayList<>();
 		clearLogs();
 		
@@ -100,13 +98,14 @@ public class Main {
 		
 		// To test the network with many users announcing many transactions
 		sendTransactions();
-		
+		System.out.println("Please look in logs.txt for output");
 		// >>>>>>>>>>>>> After running check logs.txt in the workspace. It gets cleared at the start of every run.
 
 		// To test signatures
-		// a.announceTransaction(a.generateTransaction());
-		// System.out.println(a.getTransactions());
-		// Transaction t=a.getTransactions().get(0);
-		// System.out.println(a.verifySignature(t.getSignature(),t.getContent(),a.getPublicKey()));
+//		 a.announceTransaction(a.generateTransaction());
+//		 System.out.println(a.getTransactions());
+//		 Transaction t=a.getTransactions().get(0);
+//		 System.out.println(a.verifySignature(t.getSignature(),t.getContent(),a.getPublicKey()));
+
 	}
 }

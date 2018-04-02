@@ -10,10 +10,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Random;
+
+import cipher.CipherHelpers;
 
 public class User {
 	private String name;
@@ -27,6 +30,15 @@ public class User {
 		this.transactions = new ArrayList<Transaction>();
 		ledger = new Ledger();
 		generateKeys();
+		//uncomment this segment to have users with public key modulus and exponent as name
+//		try {
+//			RSAPublicKey rspk=(RSAPublicKey)  publicKey;
+//			this.name=rspk.getModulus().toString()+rspk.getPublicExponent().toString();
+//
+//		} catch (NoSuchAlgorithmException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	public void appendToLogs(String text) throws IOException{
@@ -34,7 +46,7 @@ public class User {
 	    Files.write(Paths.get("logs.txt"), text.getBytes(), StandardOpenOption.APPEND);
 	}
 	
-	private void generateKeys(){
+	private void generateKeysDSA(){
 		KeyPairGenerator kg;
 		try {
 			kg = KeyPairGenerator.getInstance("DSA");
@@ -47,15 +59,44 @@ public class User {
 		}
 	}
 	
-	private byte[] signString(String content) throws Exception{
+	private byte[] signStringDSA(String content) throws Exception{
 	    Signature sign = Signature.getInstance("DSA");
 	    sign.initSign(privateKey);
 	    sign.update(content.getBytes());
 	    return sign.sign();
 	}
 	
-	public boolean verifySignature(byte[]signature,String content,PublicKey pk) throws Exception{
+	public boolean verifySignatureDSA(byte[]signature,String content,PublicKey pk) throws Exception{
 	    Signature sign = Signature.getInstance("DSA");
+	    sign.initVerify(pk);
+	    sign.update(content.getBytes());
+		return sign.verify(signature);
+	}
+	
+	public PublicKey getPublicKeyDSA(){
+		return publicKey;
+	}
+	
+	private void generateKeys(){ //RSA
+		try {
+			KeyPair keyPair = CipherHelpers.generateKeyPair();
+			privateKey = keyPair.getPrivate();
+			publicKey = keyPair.getPublic();
+		} 
+		catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private byte[] signString(String content) throws Exception{
+	    Signature sign = Signature.getInstance("SHA256withRSA");
+	    sign.initSign(privateKey);
+	    sign.update(content.getBytes());
+	    return sign.sign();
+	}
+	
+	public boolean verifySignature(byte[]signature,String content,PublicKey pk) throws Exception{
+	    Signature sign = Signature.getInstance("SHA256withRSA");
 	    sign.initVerify(pk);
 	    sign.update(content.getBytes());
 		return sign.verify(signature);
@@ -109,7 +150,7 @@ public class User {
 	public Transaction generateTransaction() throws Exception{
 		String rdmStr = generateRandomString(20);
 		byte [] sig = signString(rdmStr);
-		Transaction t = new Transaction(Main.currentTransactionId++, this.getName(), this.getName(), rdmStr, sig);
+		Transaction t = new Transaction(this.getName(), this.getName(), rdmStr, sig);
 		return t;
 	}
 
