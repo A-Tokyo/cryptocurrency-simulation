@@ -6,7 +6,7 @@ public class Main {
 	static int blockSize;
 	static long currentTransactionId;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		networkGraph = new Hashtable<>();
 		blockSize = 5;
 		currentTransactionId = 1;
@@ -50,5 +50,8 @@ public class Main {
 		networkGraph.put(e.getName(), ePeers);
 		
 		a.announceTransaction(a.generateTransaction());
+		System.out.println(a.getTransactions());
+		Transaction t=a.getTransactions().get(0);
+		System.out.println(a.verifySignature(t.getSignature(),t.getContent()));
 	}
 }
