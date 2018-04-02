@@ -4,14 +4,14 @@ public class Transaction {
 	private String announcer;
 	private String content;
 	private String originator;
-	private byte[]signature;
+	private byte [] signature;
 	
 	public Transaction(long id,String originator, String announcer, String content,byte[]signature){
 		this.id = id;
 		this.announcer = announcer;
 		this.content = content;
-		this.signature=signature;
-		this.originator=originator;
+		this.signature = signature;
+		this.originator = originator;
 	}
 	
 	@Override
@@ -35,9 +35,11 @@ public class Transaction {
 	public String getAnnouncer() {
 		return announcer;
 	}
-	public void setAnnouncer(String annouuncer) {
-		 this.announcer=announcer;
+	
+	public void setAnnouncer(String announcer) {
+		 this.announcer = announcer;
 	}
+	
 	public String getContent() {
 		return content;
 	}

@@ -1,0 +1,146 @@
+
+A : Announcing transaction 1 to [E, D, B, C]
+
+User E authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 1 and forward to peers
+
+E : Announcing transaction 1 to [C, A, D]
+
+User C authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 1 and forward to peers
+
+C : Announcing transaction 1 to [A, B]
+
+User A authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 1 and forward to peers
+
+A : Announcing transaction 1 to [D, E, B]
+
+User D authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 1 and forward to peers
+
+D : Announcing transaction 1 to [B, E]
+
+User B authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 1 and forward to peers
+
+B : Announcing transaction 1 to [C, A]
+
+User C authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 1 and forward to peers
+
+C : Announcing transaction 1 to [A]
+
+Transaction 1 already in A so not added or announced from user A
+
+User A authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 1 and forward to peers
+
+A : Announcing transaction 1 to [B, D, C]
+
+User B authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 1 and forward to peers
+
+B : Announcing transaction 1 to [D, A]
+
+User D authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 1 and forward to peers
+
+D : Announcing transaction 1 to [E, A]
+
+User E authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 1 and forward to peers
+
+E : Announcing transaction 1 to [D]
+
+User D authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 1 and forward to peers
+
+D : Announcing transaction 1 to [E, A, B]
+
+Transaction 1 already in E so not added or announced from user E
+
+User A authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 1 and forward to peers
+
+A : Announcing transaction 1 to [C, E, D]
+
+User C authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 1 and forward to peers
+
+C : Announcing transaction 1 to [A, E]
+
+Transaction 1 already in A so not added or announced from user A
+
+User E authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 1 and forward to peers
+
+E : Announcing transaction 1 to [D, C]
+
+Transaction 1 already in D so not added or announced from user D
+
+Transaction 1 already in C so not added or announced from user C
+
+Transaction 1 already in E so not added or announced from user E
+
+Transaction 1 already in D so not added or announced from user D
+
+Transaction 1 already in B so not added or announced from user B
+
+Transaction 1 already in A so not added or announced from user A
+
+Transaction 1 already in A so not added or announced from user A
+
+Transaction 1 already in D so not added or announced from user D
+
+Transaction 1 already in C so not added or announced from user C
+
+Transaction 1 already in E so not added or announced from user E
+
+Transaction 1 already in E so not added or announced from user E
+
+Transaction 1 already in B so not added or announced from user B
+
+User B authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 1 and forward to peers
+
+B : Announcing transaction 1 to [C]
+
+Transaction 1 already in C so not added or announced from user C
+
+User A authenticating transaction 1 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 1 and forward to peers
+
+A : Announcing transaction 1 to [B, E, D, C]
+
+Transaction 1 already in B so not added or announced from user B
+
+Transaction 1 already in E so not added or announced from user E
+
+Transaction 1 already in D so not added or announced from user D
+
+Transaction 1 already in C so not added or announced from user C
+
+Transaction 1 already in D so not added or announced from user D
+
+Transaction 1 already in D so not added or announced from user D
+
+Transaction 1 already in B so not added or announced from user B
+
+Transaction 1 already in C so not added or announced from user C

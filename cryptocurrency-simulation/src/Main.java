@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
@@ -5,12 +8,17 @@ import java.util.Random;
 public class Main {
 	static Hashtable<String, ArrayList<User>> networkGraph;
 	static ArrayList<User> usersList;
-	static int blockSize;
 	static long currentTransactionId;
 	
 	public static int randomInt(int min, int max){
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
+	}
+	
+	public static void clearLogs() throws FileNotFoundException{
+		PrintWriter writer = new PrintWriter(new File("logs.txt"));
+		writer.print("");
+		writer.close();
 	}
 	
 	// To Send a random number of transactions to some random peers
@@ -32,9 +40,9 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		networkGraph = new Hashtable<>();
-		blockSize = 5;
 		currentTransactionId = 1;
 		usersList = new ArrayList<>();
+		clearLogs();
 		
 		User a = new User("A");
 		User b = new User("B");
@@ -80,12 +88,25 @@ public class Main {
 		networkGraph.put(d.getName(), dPeers);
 		networkGraph.put(e.getName(), ePeers);
 		
+		// The network looks like the following
+		// B		 C
+		//    \    /
+		// 		A
+		//    /    \
+		// D		 E
+		
+		// To test the network with just one transaction
+		// a.announceTransaction(a.generateTransaction());
+		
+		// To test the network with many users announcing many transactions
 		sendTransactions();
+		
+		// >>>>>>>>>>>>> After running check logs.txt in the workspace. It gets cleared at the start of every run.
 
-		//If you want to test signature
-//		a.announceTransaction(a.generateTransaction());
-//		System.out.println(a.getTransactions());
-//		Transaction t=a.getTransactions().get(0);
-//		System.out.println(a.verifySignature(t.getSignature(),t.getContent(),a.getPublicKey()));
+		// To test signatures
+		// a.announceTransaction(a.generateTransaction());
+		// System.out.println(a.getTransactions());
+		// Transaction t=a.getTransactions().get(0);
+		// System.out.println(a.verifySignature(t.getSignature(),t.getContent(),a.getPublicKey()));
 	}
 }

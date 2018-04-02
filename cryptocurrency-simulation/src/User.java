@@ -1,5 +1,8 @@
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
@@ -7,12 +10,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
-import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Random;
-
 
 public class User {
 	private String name;
@@ -26,8 +27,13 @@ public class User {
 		this.transactions = new ArrayList<Transaction>();
 		ledger = new Ledger();
 		generateKeys();
-
 	}
+	
+	public void appendToLogs(String text) throws IOException{
+		text = "\n" + text + "\n";
+	    Files.write(Paths.get("logs.txt"), text.getBytes(), StandardOpenOption.APPEND);
+	}
+	
 	private void generateKeys(){
 		KeyPairGenerator kg;
 		try {
@@ -35,24 +41,26 @@ public class User {
 			KeyPair keyPair = kg.genKeyPair();
 			privateKey = keyPair.getPrivate();
 			publicKey = keyPair.getPublic();
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		
 	}
+	
 	private byte[] signString(String content) throws Exception{
 	    Signature sign = Signature.getInstance("DSA");
 	    sign.initSign(privateKey);
 	    sign.update(content.getBytes());
 	    return sign.sign();
 	}
+	
 	public boolean verifySignature(byte[]signature,String content,PublicKey pk) throws Exception{
 	    Signature sign = Signature.getInstance("DSA");
 	    sign.initVerify(pk);
 	    sign.update(content.getBytes());
 		return sign.verify(signature);
 	}
+	
 	public PublicKey getPublicKey(){
 		return publicKey;
 	}
@@ -63,21 +71,22 @@ public class User {
 	}
 
 	public ArrayList<User> selectTargetPeers(){
-		System.out.println("User " + this);
 		ArrayList<User> nearPeers = Main.networkGraph.get(this.getName());
-		System.out.println("User Peers" + this + " "  + nearPeers);
+		ArrayList<User> nearPeersCopy = new ArrayList<>();
+		nearPeersCopy.addAll(nearPeers);
 
 		ArrayList<User> targets = new ArrayList<>();
-		int targetsCount = randomInt(0, nearPeers.size());
+		int targetsCount = randomInt(1, nearPeers.size());
 
 		for (int i = 0; i < targetsCount; i++) {
-			int targetIndex = randomInt(0, nearPeers.size()-1);
-			targets.add(nearPeers.get(targetIndex));
-			nearPeers.remove(targetIndex);
+			int targetIndex = randomInt(0, nearPeersCopy.size()-1);
+			targets.add(nearPeersCopy.get(targetIndex));
+			nearPeersCopy.remove(targetIndex);
 		}
 
 		return targets;
 	}
+	
 	private PublicKey getOriginatorPublicKey(Transaction transaction){
 		String originatorName=transaction.getOriginator();
 		for(User u:Main.usersList){
@@ -87,10 +96,10 @@ public class User {
 		}
 		return null;
 	}
+	
 	public void announceTransaction(Transaction transaction) throws Exception{
-		
 		ArrayList<User> targets = selectTargetPeers();
-		System.out.println(name + " : Announcing transaction " + transaction.getId() + " to " + targets);
+		appendToLogs(name + " : Announcing transaction " + transaction.getId() + " to " + targets);
 		
 		for(User current : targets){
 			current.receiveTransaction(transaction);
@@ -98,16 +107,9 @@ public class User {
 	}
 
 	public Transaction generateTransaction() throws Exception{
-		String rdmStr=generateRandomString(20);
-		byte[]sig=signString(rdmStr);
-//		System.out.println(verifySignature(sig,rdmStr,publicKey));
-		Transaction t= new Transaction(Main.currentTransactionId++, this.getName(),this.getName(), rdmStr,sig);
-		transactions.add(t);
-		if(transactions.size() == Main.blockSize){
-			createBlock();
-			transactions.clear();
-			System.out.println("User "+name+" created a block and appended it to the ledger");
-		}
+		String rdmStr = generateRandomString(20);
+		byte [] sig = signString(rdmStr);
+		Transaction t = new Transaction(Main.currentTransactionId++, this.getName(), this.getName(), rdmStr, sig);
 		return t;
 	}
 
@@ -127,37 +129,40 @@ public class User {
 	public void receiveTransaction(Transaction transaction) throws Exception{
 		if(!transactions.contains(transaction)){
 			// Receive and see if a block can be formed
-			//System.out.println(name + " : received transaction " + transaction.getId() + " from " + transaction.getAnnouncer());
-			PublicKey pk=getOriginatorPublicKey(transaction);
-			System.out.println("User "+name+" authenticating transaction "+transaction.getId() +" first before accepting and announcing to peers");
+			PublicKey pk = getOriginatorPublicKey(transaction);
+			appendToLogs("User "+name+" authenticating transaction "+transaction.getId() +" first before accepting and announcing to peers");
+			System.out.println();
 			if(verifySignature(transaction.getSignature(),transaction.getContent(),pk)){
-				System.out.println("Authentication sucessful, user "+name+ " will add transaction "+transaction.getId() +" and forward to peers");
-			transactions.add(transaction);
-
-			if(transactions.size() == Main.blockSize){
-				createBlock();
-				transactions.clear();
-				System.out.println("User "+name+" created a block and appended it to the ledger");
+				appendToLogs("Authentication successful, user "+name+ " will add transaction "+transaction.getId() +" and forward to peers");
+				transactions.add(transaction);
+	
+				if(transactions.size() == Ledger.getBlocksize()){
+					createBlock();
+					transactions.clear();
+					appendToLogs("User "+name+" created a block and appended it to the ledger");
+				}
+	
+				// Forward to some near peers
+				transaction.setAnnouncer(this.getName());
+				announceTransaction(transaction);
 			}
-
-			// Forward to some near peers
-			
-			transaction.setAnnouncer(this.getName());
-			announceTransaction(transaction);
-			}else{
-				System.out.println("Authentication failed therfore user "+name +" will not forward to peers transaction"+transaction.getId());
+			else{
+				appendToLogs("Authentication failed therfore user "+name +" will not forward to peers transaction"+transaction.getId());
 			}
-		}else{
-			System.out.println("Transaction already in "+name+" so not added or announced from user "+name);
+		}
+		else{
+			appendToLogs("Transaction " + transaction.getId() + " already in "+name+" so not added or announced from user "+name);
 		}
 	}
+	
 	public String generateNonce() throws NoSuchAlgorithmException{
-		String dateTimeNameString = Long.toString(new Date().getTime())+name; //inorder to be very unique and assured not in ledger
+		String dateTimeNameString = Long.toString(new Date().getTime())+name; //in-order to be very unique and assured not in ledger
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
 		byte[] hash = digest.digest(dateTimeNameString.getBytes(StandardCharsets.UTF_8));
 		String encoded = Base64.getEncoder().encodeToString(hash);
 		return encoded;
 	}
+	
 	public void createBlock(){
 		try {
 			boolean isContainsNonce=false;
@@ -165,20 +170,23 @@ public class User {
 			do{
 				nonce=generateNonce();
 				isContainsNonce=ledger.containsNonce(nonce);
-			}while(isContainsNonce);
+			}
+			while(isContainsNonce);
 			Block block = new Block(transactions,nonce);
 			ledger.appendBlock(block);
 			announceBlock(block);
-		} catch (NoSuchAlgorithmException e) {
+		} 
+		catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
+	
 	//TODO: announce block to random subset of peers due for M2
 	public void announceBlock(Block block){
 
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		return ((User) obj).name.equals(name);
