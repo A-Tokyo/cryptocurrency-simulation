@@ -47,9 +47,9 @@ public class User {
 	    sign.update(content.getBytes());
 	    return sign.sign();
 	}
-	public boolean verifySignature(byte[]signature,String content) throws Exception{
+	public boolean verifySignature(byte[]signature,String content,PublicKey pk) throws Exception{
 	    Signature sign = Signature.getInstance("DSA");
-	    sign.initVerify(publicKey);
+	    sign.initVerify(pk);
 	    sign.update(content.getBytes());
 		return sign.verify(signature);
 	}
@@ -78,20 +78,36 @@ public class User {
 
 		return targets;
 	}
-
-	public void announceTransaction(Transaction transaction){
+	private PublicKey getOriginatorPublicKey(Transaction transaction){
+		String originatorName=transaction.getOriginator();
+		for(User u:Main.usersList){
+			if(u.name.equals(originatorName)){
+				return u.getPublicKey();
+			}
+		}
+		return null;
+	}
+	public void announceTransaction(Transaction transaction) throws Exception{
+		PublicKey pk=getOriginatorPublicKey(transaction);
+		System.out.println("Authenticating transaction first before announcing to peers");
+		if(verifySignature(transaction.getSignature(),transaction.getContent(),pk)){
+			System.out.println("Authentication sucessful will forward to peers");
 		ArrayList<User> targets = selectTargetPeers();
 		System.out.println(name + " : Announcing transaction " + transaction.getId() + " to " + targets);
-
+		
 		for(User current : targets){
 			current.receiveTransaction(transaction);
+		}
+		}
+		else{
+			System.out.println("Authentication failed therfore will not forward to peers");
 		}
 	}
 
 	public Transaction generateTransaction() throws Exception{
 		String rdmStr=generateRandomString(20);
 		byte[]sig=signString(rdmStr);
-//		System.out.println(verifySignature(sig,rdmStr));
+//		System.out.println(verifySignature(sig,rdmStr,publicKey));
 		Transaction t= new Transaction(Main.currentTransactionId++, this.getName(),this.getName(), rdmStr,sig);
 		transactions.add(t);
 		if(transactions.size() == Main.blockSize){
@@ -115,7 +131,7 @@ public class User {
 		return saltStr;
 	}
 
-	public void receiveTransaction(Transaction transaction){
+	public void receiveTransaction(Transaction transaction) throws Exception{
 		if(!transactions.contains(transaction)){
 			// Receive and see if a block can be formed
 			//System.out.println(name + " : received transaction " + transaction.getId() + " from " + transaction.getAnnouncer());

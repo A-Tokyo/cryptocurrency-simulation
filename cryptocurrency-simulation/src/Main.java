@@ -86,6 +86,6 @@ public class Main {
 //		a.announceTransaction(a.generateTransaction());
 //		System.out.println(a.getTransactions());
 //		Transaction t=a.getTransactions().get(0);
-//		System.out.println(a.verifySignature(t.getSignature(),t.getContent()));
+//		System.out.println(a.verifySignature(t.getSignature(),t.getContent(),a.getPublicKey()));
 	}
 }
