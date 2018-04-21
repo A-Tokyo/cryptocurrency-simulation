@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class Ledger {
-	private static long blockSize = 5; //number of transactions to form block
+	private static long blockSize = 5;
 	private ArrayList<Block> blocks;
-	
+
 	public Ledger(int n){
 		blocks=new ArrayList<Block>();
 		blockSize = n;
@@ -16,6 +16,8 @@ public class Ledger {
 	
 	public void appendBlock(Block block){
 		blocks.add(block);
+		Block lastBlock = blocks.get(blocks.size() - 1);
+		block.linkPrevBlock(lastBlock);
 	}
 	
 	public boolean containsNonce(String nonce){
@@ -24,6 +26,12 @@ public class Ledger {
 				return true;
 			}
 		}
+		return false;
+	}
+	
+	// @Abo el se3od >>>>>>>>>>>>>> Implement the following method
+	// It determines whether a proposed block can be linked to the last block of this ledger based on its nonce
+	public boolean canBeAppended(ProposedBlock proposedBlock){
 		return false;
 	}
 	

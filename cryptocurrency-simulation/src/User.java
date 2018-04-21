@@ -10,7 +10,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
-import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -46,7 +45,7 @@ public class User {
 	    Files.write(Paths.get("logs.txt"), text.getBytes(), StandardOpenOption.APPEND);
 	}
 	
-	private void generateKeysDSA(){
+	public void generateKeysDSA(){
 		KeyPairGenerator kg;
 		try {
 			kg = KeyPairGenerator.getInstance("DSA");
@@ -59,7 +58,7 @@ public class User {
 		}
 	}
 	
-	private byte[] signStringDSA(String content) throws Exception{
+	public byte[] signStringDSA(String content) throws Exception{
 	    Signature sign = Signature.getInstance("DSA");
 	    sign.initSign(privateKey);
 	    sign.update(content.getBytes());
@@ -109,6 +108,12 @@ public class User {
 	public int randomInt(int min, int max){
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
+	}
+	
+	// @Abo el se3od >>>>>>>>>>>>>> Implement the following method
+	// It lets a user solve a complex puzzle and returns true if the user managed to solve it and false otherwise
+	public boolean solvedComplexPuzzle(){
+		return false;
 	}
 
 	public ArrayList<User> selectTargetPeers(){
@@ -196,6 +201,7 @@ public class User {
 		}
 	}
 	
+	// @Abo el se3od >>>>>>>>>>>>>> Update the following method
 	public String generateNonce() throws NoSuchAlgorithmException{
 		String dateTimeNameString = Long.toString(new Date().getTime())+name; //in-order to be very unique and assured not in ledger
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -204,7 +210,7 @@ public class User {
 		return encoded;
 	}
 	
-	public void createBlock(){
+	public void createBlock() throws IOException{
 		try {
 			boolean isContainsNonce=false;
 			String nonce;
@@ -214,7 +220,7 @@ public class User {
 			}
 			while(isContainsNonce);
 			Block block = new Block(transactions,nonce);
-			ledger.appendBlock(block);
+			//ledger.appendBlock(block);
 			announceBlock(block);
 		} 
 		catch (NoSuchAlgorithmException e) {
@@ -222,10 +228,59 @@ public class User {
 			e.printStackTrace();
 		}
 	}
-	
-	//TODO: announce block to random subset of peers due for M2
-	public void announceBlock(Block block){
 
+	public void announceBlock(Block block) throws IOException{
+		// If managed to solve a complex puzzle, a user can then announce a block
+		if(solvedComplexPuzzle()){
+			ProposedBlock proposedBlock = new ProposedBlock(block.getTransactions(), block.getNonce(), this);
+			ArrayList<User> randomTargetPeers = selectTargetPeers();
+			for(User peer : randomTargetPeers){
+				peer.handleProposedBlock(proposedBlock);
+			}
+		}
+	}
+	
+	public void handleProposedBlock(ProposedBlock proposedBlock) throws IOException{
+		String proposerName = proposedBlock.proposer.getName();
+		
+		// Users do not vote for blocks they proposed
+		if(proposerName.equals(name)){
+			appendToLogs(name + " : Cannot vote since I proposed this block");
+			return;
+		}
+		
+		// Users do not vote for blocks they voted for previously 
+		if(proposedBlock.uniqueVoters.contains(name)){
+			appendToLogs(name + " : Cannot vote since I already voted for this block proposed by " + proposerName);
+			return;
+		}
+		
+		proposedBlock.uniqueVoters.add(name);
+		if(proposedBlock.uniqueVoters.size() == Main.usersCount){
+			// All users -except the proposer- voted for the block
+			if(proposedBlock.confirmations > proposedBlock.rejections){
+				appendToLogs(proposerName + " : My block is accepted");
+				proposedBlock.proposer.ledger.appendBlock(proposedBlock);
+				// @Mamdouh >>>>>>>>>>>>>> Update all users with the new block
+			}
+			else{
+				appendToLogs(proposerName + " : My block is orphaned");
+				// @Tokyo >>>>>>>>>>>>>> Handle orphaned block
+			}
+		}
+		else{
+			if(ledger.canBeAppended(proposedBlock))
+				proposedBlock.confirmations++;
+			else
+				proposedBlock.rejections++;
+			
+			
+			// After voting, pass the block to a random set of near peers
+			ArrayList<User> randomTargetPeers = selectTargetPeers();
+			for(User peer : randomTargetPeers){
+				peer.handleProposedBlock(proposedBlock);
+			}
+		}
 	}
 	
 	@Override

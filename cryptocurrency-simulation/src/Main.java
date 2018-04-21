@@ -8,6 +8,8 @@ import java.util.Random;
 public class Main {
 	static Hashtable<String, ArrayList<User>> networkGraph;
 	static ArrayList<User> usersList;
+	static Ledger ledger;
+	static int usersCount;
 	
 	public static int randomInt(int min, int max){
 		Random r = new Random();
@@ -40,6 +42,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		networkGraph = new Hashtable<>();
 		usersList = new ArrayList<>();
+		ledger = new Ledger();
 		clearLogs();
 		
 		User a = new User("A");
@@ -86,20 +89,19 @@ public class Main {
 		networkGraph.put(d.getName(), dPeers);
 		networkGraph.put(e.getName(), ePeers);
 		
+		// Define total users' count
+		Main.usersCount = usersList.size();
+		
 		// The network looks like the following
 		// B		 C
 		//    \    /
 		// 		A
 		//    /    \
 		// D		 E
-		
-		// To test the network with just one transaction
-		// a.announceTransaction(a.generateTransaction());
-		
+
 		// To test the network with many users announcing many transactions
 		sendTransactions();
-		System.out.println("Please look in logs.txt for output");
-		// >>>>>>>>>>>>> After running check logs.txt in the workspace. It gets cleared at the start of every run.
+		System.out.println("Please look in logs.txt for output. It gets cleared at the start of every run.");
 
 		// To test signatures
 //		 a.announceTransaction(a.generateTransaction());
