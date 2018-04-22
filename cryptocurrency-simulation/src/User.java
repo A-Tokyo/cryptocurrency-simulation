@@ -261,6 +261,7 @@ public class User {
 			if(proposedBlock.confirmations > proposedBlock.rejections){
 				appendToLogs(proposerName + " : My block is accepted");
 				proposedBlock.proposer.appendBlock(proposedBlock);
+				Main.ledger.appendBlock(proposedBlock);
 				Main.updateUsersLedgers();
 				// @Mamdouh >>>>>>>>>>>>>> Update all users with the new block
 			}
