@@ -16,6 +16,12 @@ public class Main {
 		return r.nextInt((max - min) + 1) + min;
 	}
 	
+	public static void updateUsersLedgers() {
+		for (User user : usersList) {
+			user.appendBlock(ledger.getBlocks().get(ledger.getBlocks().size()-1));
+		}
+	}
+	
 	public static void clearLogs() throws FileNotFoundException{
 		PrintWriter writer = new PrintWriter(new File("logs.txt"));
 		writer.print("");
