@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class ProposedBlock extends Block{
 	User proposer;
 	ArrayList<String> uniqueVoters;
+	ArrayList<User> rejectedVote;
 	int confirmations, rejections;
 
 	public ProposedBlock(ArrayList<Transaction> transactions, String nonce, User proposer) {

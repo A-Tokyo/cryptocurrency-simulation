@@ -260,7 +260,9 @@ public class User {
 			// All users -except the proposer- voted for the block
 			if(proposedBlock.confirmations > proposedBlock.rejections){
 				appendToLogs(proposerName + " : My block is accepted");
-				proposedBlock.proposer.ledger.appendBlock(proposedBlock);
+				proposedBlock.proposer.appendBlock(proposedBlock);
+				Main.ledger.appendBlock(proposedBlock);
+				Main.updateUsersLedgers();
 				// @Mamdouh >>>>>>>>>>>>>> Update all users with the new block
 			}
 			else{
@@ -286,6 +288,10 @@ public class User {
 	@Override
 	public boolean equals(Object obj) {
 		return ((User) obj).name.equals(name);
+	}
+	
+	public void appendBlock(Block block) {
+		ledger.appendBlock(block);
 	}
 
 	@Override
