@@ -31,8 +31,8 @@ public class User {
 		ledger = new Ledger();
 		generateKeys();
 		//uncomment this segment to have users with public key modulus and exponent as name //TODO: uncomment
-//		RSAPublicKey rspk=(RSAPublicKey)  publicKey;
-//		this.name=rspk.getModulus().toString()+rspk.getPublicExponent().toString();
+		//		RSAPublicKey rspk=(RSAPublicKey)  publicKey;
+		//		this.name=rspk.getModulus().toString()+rspk.getPublicExponent().toString();
 	}
 
 	public void appendToLogs(String text) throws IOException{
@@ -210,9 +210,22 @@ public class User {
 		String encoded = Base64.getEncoder().encodeToString(hash);
 		return encoded;
 	}
+	public Boolean authenticateBlockTransactions(Block block){
+		for(Transaction transaction : block.getTransactions()){
+			PublicKey pk = getOriginatorPublicKey(transaction);
+			try {
+				if(!verifySignature(transaction.getSignature(),transaction.getContent(),pk)) //if verification false
+					return false;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
 	//verify that the hashing of block is consistent to what the block contains
 	public Boolean verifyBlockHash(Block block){
-		String hashStr=block.getTransactions().toString()+block.getPrevBlock().getHash()+block.getNonce(); //TODO: handle genesis block
+		String hashStr=block.getTransactions().toString()+block.getPrevBlock().getHash()+block.getNonce();
 		MessageDigest digest;
 		try {
 			digest = MessageDigest.getInstance("SHA-256");
@@ -248,13 +261,11 @@ public class User {
 
 	public void announceBlock(Block block) throws IOException{
 		// If managed to solve a complex puzzle, a user can then announce a block
-		//		if(solvedComplexPuzzle()){ //separate function not needed since if complex puzzle is solved then announceBlock function gets called
 		ProposedBlock proposedBlock = new ProposedBlock(block,this);
 		ArrayList<User> randomTargetPeers = selectTargetPeers();
 		for(User peer : randomTargetPeers){
 			peer.handleProposedBlock(proposedBlock);
 		}
-		//		}
 	}
 
 	public void handleProposedBlock(ProposedBlock proposedBlock) throws IOException{
@@ -262,46 +273,52 @@ public class User {
 		appendToLogs("user "+name + " recieved a block from user "+ proposerName);
 		appendToLogs("user "+name + " verifying the block first ");
 		if(verifyBlockHash(proposedBlock)){ 	//verify that the hashing of block is consistent with the contents of the block first, if not it will be ignored
-			appendToLogs("user "+name + " sucessfully verified the recieved block's content and hash since computed hash and the stated block's hash are the same");
-			// Users do not vote for blocks they proposed
-			if(proposerName.equals(name)){
-				appendToLogs(name + " : Cannot vote since I proposed this block");
-				return;
-			}
+			appendToLogs("user "+name + " sucessfully verified the recieved block's hash and content since computed hash and the stated block's hash are the same and they depend on transactions");
+			if(authenticateBlockTransactions(proposedBlock)){ //authenticate transactions in block
+				appendToLogs("Transactions in Block sucessfully authenticated");
+				// Users do not vote for blocks they proposed
+				if(proposerName.equals(name)){
+					appendToLogs(name + " : Cannot vote since I proposed this block");
+					return;
+				}
 
-			// Users do not vote for blocks they voted for previously 
-			if(proposedBlock.uniqueVoters.contains(name)){
-				appendToLogs(name + " : Cannot vote since I already voted for this block proposed by " + proposerName);
-				return;
-			}
+				// Users do not vote for blocks they voted for previously 
+				if(proposedBlock.uniqueVoters.contains(name)){
+					appendToLogs(name + " : Cannot vote since I already voted for this block proposed by " + proposerName);
+					return;
+				}
 
-			proposedBlock.uniqueVoters.add(name);
-			if(proposedBlock.uniqueVoters.size() == Main.usersCount){
-				// All users -except the proposer- voted for the block
-				if(proposedBlock.confirmations > proposedBlock.rejections){
-					appendToLogs(proposerName + " : My block is accepted");
-					proposedBlock.proposer.appendBlock(proposedBlock);
-					Main.ledger.appendBlock(proposedBlock);
-					Main.updateUsersLedgers();
-					// @Mamdouh >>>>>>>>>>>>>> Update all users with the new block
+				proposedBlock.uniqueVoters.add(name);
+				if(proposedBlock.uniqueVoters.size() == Main.usersCount){
+					// All users -except the proposer- voted for the block
+					if(proposedBlock.confirmations > proposedBlock.rejections){
+						appendToLogs(proposerName + " : My block is accepted");
+						proposedBlock.proposer.appendBlock(proposedBlock);
+						Main.ledger.appendBlock(proposedBlock);
+						Main.updateUsersLedgers();
+						// @Mamdouh >>>>>>>>>>>>>> Update all users with the new block
+					}
+					else{
+						appendToLogs(proposerName + " : My block is orphaned");
+						// @Tokyo >>>>>>>>>>>>>> Handle orphaned block
+					}
 				}
 				else{
-					appendToLogs(proposerName + " : My block is orphaned");
-					// @Tokyo >>>>>>>>>>>>>> Handle orphaned block
+					if(ledger.canBeAppended(proposedBlock))
+						proposedBlock.confirmations++;
+					else
+						proposedBlock.rejections++;
+
+
+					// After voting, pass the block to a random set of near peers
+					ArrayList<User> randomTargetPeers = selectTargetPeers();
+					for(User peer : randomTargetPeers){
+						peer.handleProposedBlock(proposedBlock);
+					}
 				}
 			}
 			else{
-				if(ledger.canBeAppended(proposedBlock))
-					proposedBlock.confirmations++;
-				else
-					proposedBlock.rejections++;
-
-
-				// After voting, pass the block to a random set of near peers
-				ArrayList<User> randomTargetPeers = selectTargetPeers();
-				for(User peer : randomTargetPeers){
-					peer.handleProposedBlock(proposedBlock);
-				}
+				appendToLogs("Authentication of Transactions in Block failed due to invalid signatures therfore willl ignore the block");
 			}
 		}
 		else {
