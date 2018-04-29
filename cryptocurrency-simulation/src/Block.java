@@ -36,6 +36,13 @@ public class Block {
 		return new Block(transactions, nonce,hash);
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		Block block=(Block) obj;
+		
+		return this.hash==block.hash;
+	}
 
 	public void linkPrevBlock(Block prev){
 		this.prevBlock = prev;

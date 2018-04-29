@@ -7,6 +7,13 @@ public class Ledger {
 	public Ledger(int n){
 		blocks=new ArrayList<Block>();
 		blockSize = n;
+		//adding genesis block in ledger
+		ArrayList<Transaction> genesisTransactions=new ArrayList<Transaction>();
+		for(int i=0;i<5;i++){
+		genesisTransactions.add(new Transaction("genesis", "genesis", "genesis", null)); //maybe do a genesis key in future
+		}
+		Block genesisBlock=new Block(genesisTransactions, "genesis", "genesis");
+		blocks.add(genesisBlock);
 	}
 	
 	public Ledger(){
@@ -17,8 +24,8 @@ public class Ledger {
 	public void appendBlock(Block block){
 		blocks.add(block);
 		Block lastBlock =lastBlock();
-		if(lastBlock==null)
-			lastBlock=block;//if no last block then reference itself
+//		if(lastBlock==null)
+//			lastBlock=block;//if no last block then reference itself ->solved with genesis block
 		block.linkPrevBlock(lastBlock);
 	}
 	
@@ -32,15 +39,14 @@ public class Ledger {
 	}
 	
 	public Block lastBlock(){
-		if(blocks.isEmpty())
-			return null;// no last block
+//		if(blocks.isEmpty())
+//			return null;// no last block  >solved with genesis block
 		return blocks.get(blocks.size() - 1);
 	}
-	// @Abo el se3od >>>>>>>>>>>>>> Implement the following method
 	// It determines whether a proposed block can be linked to the last block of this ledger based on its hash
-	public boolean canBeAppended(ProposedBlock proposedBlock){ //TODO
+	public boolean canBeAppended(ProposedBlock proposedBlock){
 //		String prevHash=proposedBlock.getPrevHash();
-		return false;
+		return proposedBlock.getPrevBlock().equals(lastBlock());
 	}
 	
 	public static long getBlocksize() {
