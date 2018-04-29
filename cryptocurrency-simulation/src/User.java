@@ -209,7 +209,10 @@ public class User {
 	}
 
 	public String generateHash(String nonce) throws NoSuchAlgorithmException{
-		String hashStr= transactions.toString()+ledger.lastBlock().getHash()+nonce;
+//		Block prevBlock=ledger.lastBlock(); //TODO: handle genesis block
+//		if(prevBlock==null)
+//			prevBlock=;
+		String hashStr= transactions.toString()+ledger.lastBlock().getHash()+nonce; //TODO: handle genesis block
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
 		byte[] hash = digest.digest(hashStr.getBytes(StandardCharsets.UTF_8));
 		String encoded = Base64.getEncoder().encodeToString(hash);
@@ -217,7 +220,7 @@ public class User {
 	}
 	//verify that the hashing of block is consistent to what the block contains
 	public Boolean verifyBlockHash(Block block){
-		String hashStr=block.getTransactions().toString()+block.getPrevBlock().getHash()+block.getNonce();
+		String hashStr=block.getTransactions().toString()+block.getPrevBlock().getHash()+block.getNonce(); //TODO: handle genesis block
 		MessageDigest digest;
 		try {
 			digest = MessageDigest.getInstance("SHA-256");
@@ -266,8 +269,10 @@ public class User {
 
 	public void handleProposedBlock(ProposedBlock proposedBlock) throws IOException{
 		String proposerName = proposedBlock.proposer.getName();
-
+		appendToLogs("user "+name + " recieved a block from user "+ proposerName);
+		appendToLogs("user "+name + " verifying the block first ");
 		if(verifyBlockHash(proposedBlock)){ 	//verify that the hashing of block is consistent with the contents of the block first, if not it will be ignored
+			appendToLogs("user "+name + " sucessfully verified the recieved block");
 			// Users do not vote for blocks they proposed
 			if(proposerName.equals(name)){
 				appendToLogs(name + " : Cannot vote since I proposed this block");
@@ -308,6 +313,9 @@ public class User {
 					peer.handleProposedBlock(proposedBlock);
 				}
 			}
+		}
+		else {
+			appendToLogs("user "+name + " ignored block since computed hash and block's hash are different");
 		}
 	}
 
