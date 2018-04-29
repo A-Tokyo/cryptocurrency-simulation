@@ -6,8 +6,8 @@ public class ProposedBlock extends Block{
 	ArrayList<User> rejectedVote;
 	int confirmations, rejections;
 
-	public ProposedBlock(ArrayList<Transaction> transactions, String nonce, User proposer) {
-		super(transactions, nonce);
+	public ProposedBlock(ArrayList<Transaction> transactions, String nonce, User proposer,String hash) {
+		super(transactions, nonce, hash);
 		this.proposer = proposer;
 		this.uniqueVoters = new ArrayList<>();
 		this.confirmations = 0;

@@ -4,10 +4,13 @@ public class Block {
 	private String nonce;
 	private ArrayList<Transaction> transactions;
 	private Block prevBlock;
+	private String prevHash;
+	private String hash;
 	
-	public Block(ArrayList<Transaction> transactions,String nonce){
+	public Block(ArrayList<Transaction> transactions,String nonce,String hash){
 		this.transactions = transactions;
 		this.nonce=nonce;
+		this.hash=hash;
 	}
 	
 	public ArrayList<Transaction> getTransactions(){
@@ -22,14 +25,21 @@ public class Block {
 		return prevBlock;
 	}
 	
-	public Block getCopy(){
-		return new Block(transactions, nonce);
+	public String getPrevHash(){
+		return prevHash;
 	}
+	public String getHash(){
+		return hash;
+	}
+	
+	public Block getCopy(){
+		return new Block(transactions, nonce,hash);
+	}
+	
 
 	public void linkPrevBlock(Block prev){
-		this.prevBlock = prev.getCopy();
-		
-		// @Abo el se3od >>>>>>>>>>>>>> Connect the 2 nonces
+		this.prevBlock = prev;
+		this.prevHash=prev.getHash();
 	}
 }
 

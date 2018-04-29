@@ -30,21 +30,21 @@ public class User {
 		ledger = new Ledger();
 		generateKeys();
 		//uncomment this segment to have users with public key modulus and exponent as name
-//		try {
-//			RSAPublicKey rspk=(RSAPublicKey)  publicKey;
-//			this.name=rspk.getModulus().toString()+rspk.getPublicExponent().toString();
-//
-//		} catch (NoSuchAlgorithmException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		//		try {
+		//			RSAPublicKey rspk=(RSAPublicKey)  publicKey;
+		//			this.name=rspk.getModulus().toString()+rspk.getPublicExponent().toString();
+		//
+		//		} catch (NoSuchAlgorithmException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
 	}
-	
+
 	public void appendToLogs(String text) throws IOException{
 		text = "\n" + text + "\n";
-	    Files.write(Paths.get("logs.txt"), text.getBytes(), StandardOpenOption.APPEND);
+		Files.write(Paths.get("logs.txt"), text.getBytes(), StandardOpenOption.APPEND);
 	}
-	
+
 	public void generateKeysDSA(){
 		KeyPairGenerator kg;
 		try {
@@ -57,25 +57,25 @@ public class User {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public byte[] signStringDSA(String content) throws Exception{
-	    Signature sign = Signature.getInstance("DSA");
-	    sign.initSign(privateKey);
-	    sign.update(content.getBytes());
-	    return sign.sign();
+		Signature sign = Signature.getInstance("DSA");
+		sign.initSign(privateKey);
+		sign.update(content.getBytes());
+		return sign.sign();
 	}
-	
+
 	public boolean verifySignatureDSA(byte[]signature,String content,PublicKey pk) throws Exception{
-	    Signature sign = Signature.getInstance("DSA");
-	    sign.initVerify(pk);
-	    sign.update(content.getBytes());
+		Signature sign = Signature.getInstance("DSA");
+		sign.initVerify(pk);
+		sign.update(content.getBytes());
 		return sign.verify(signature);
 	}
-	
+
 	public PublicKey getPublicKeyDSA(){
 		return publicKey;
 	}
-	
+
 	private void generateKeys(){ //RSA
 		try {
 			KeyPair keyPair = CipherHelpers.generateKeyPair();
@@ -86,35 +86,34 @@ public class User {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private byte[] signString(String content) throws Exception{
-	    Signature sign = Signature.getInstance("SHA256withRSA");
-	    sign.initSign(privateKey);
-	    sign.update(content.getBytes());
-	    return sign.sign();
+		Signature sign = Signature.getInstance("SHA256withRSA");
+		sign.initSign(privateKey);
+		sign.update(content.getBytes());
+		return sign.sign();
 	}
-	
+
 	public boolean verifySignature(byte[]signature,String content,PublicKey pk) throws Exception{
-	    Signature sign = Signature.getInstance("SHA256withRSA");
-	    sign.initVerify(pk);
-	    sign.update(content.getBytes());
+		Signature sign = Signature.getInstance("SHA256withRSA");
+		sign.initVerify(pk);
+		sign.update(content.getBytes());
 		return sign.verify(signature);
 	}
-	
+
 	public PublicKey getPublicKey(){
 		return publicKey;
 	}
-	
+
 	public int randomInt(int min, int max){
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
-	
-	// @Abo el se3od >>>>>>>>>>>>>> Implement the following method
-	// It lets a user solve a complex puzzle and returns true if the user managed to solve it and false otherwise
-	public boolean solvedComplexPuzzle(){
-		return false;
-	}
+
+	//	// It lets a user solve a complex puzzle and returns true if the user managed to solve it and false otherwise
+	//	public boolean solvedComplexPuzzle(){ //not needed since will directly call the other function when finishes puzzle
+	//		return false;
+	//	}
 
 	public ArrayList<User> selectTargetPeers(){
 		ArrayList<User> nearPeers = Main.networkGraph.get(this.getName());
@@ -132,7 +131,7 @@ public class User {
 
 		return targets;
 	}
-	
+
 	private PublicKey getOriginatorPublicKey(Transaction transaction){
 		String originatorName=transaction.getOriginator();
 		for(User u:Main.usersList){
@@ -142,11 +141,11 @@ public class User {
 		}
 		return null;
 	}
-	
+
 	public void announceTransaction(Transaction transaction) throws Exception{
 		ArrayList<User> targets = selectTargetPeers();
 		appendToLogs(name + " : Announcing transaction " + transaction.getId() + " to " + targets);
-		
+
 		for(User current : targets){
 			current.receiveTransaction(transaction);
 		}
@@ -181,13 +180,13 @@ public class User {
 			if(verifySignature(transaction.getSignature(),transaction.getContent(),pk)){
 				appendToLogs("Authentication successful, user "+name+ " will add transaction "+transaction.getId() +" and forward to peers");
 				transactions.add(transaction);
-	
+
 				if(transactions.size() == Ledger.getBlocksize()){
 					createBlock();
 					transactions.clear();
 					appendToLogs("User "+name+" created a block and appended it to the ledger");
 				}
-	
+
 				// Forward to some near peers
 				transaction.setAnnouncer(this.getName());
 				announceTransaction(transaction);
@@ -200,8 +199,7 @@ public class User {
 			appendToLogs("Transaction " + transaction.getId() + " already in "+name+" so not added or announced from user "+name);
 		}
 	}
-	
-	// @Abo el se3od >>>>>>>>>>>>>> Update the following method
+
 	public String generateNonce() throws NoSuchAlgorithmException{
 		String dateTimeNameString = Long.toString(new Date().getTime())+name; //in-order to be very unique and assured not in ledger
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -209,7 +207,32 @@ public class User {
 		String encoded = Base64.getEncoder().encodeToString(hash);
 		return encoded;
 	}
-	
+
+	public String generateHash(String nonce) throws NoSuchAlgorithmException{
+		String hashStr= transactions.toString()+ledger.lastBlock().getHash()+nonce;
+		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		byte[] hash = digest.digest(hashStr.getBytes(StandardCharsets.UTF_8));
+		String encoded = Base64.getEncoder().encodeToString(hash);
+		return encoded;
+	}
+	//verify that the hashing of block is consistent to what the block contains
+	public Boolean verifyBlockHash(Block block){
+		String hashStr=block.getTransactions().toString()+block.getPrevBlock().getHash()+block.getNonce();
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+			byte[] hash = digest.digest(hashStr.getBytes(StandardCharsets.UTF_8));
+			String encoded = Base64.getEncoder().encodeToString(hash);
+			if(block.getHash().equals(encoded))
+				return true;
+			else return false;
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+	}
 	public void createBlock() throws IOException{
 		try {
 			boolean isContainsNonce=false;
@@ -218,9 +241,10 @@ public class User {
 				nonce=generateNonce();
 				isContainsNonce=ledger.containsNonce(nonce);
 			}
-			while(isContainsNonce);
-			Block block = new Block(transactions,nonce);
-			//ledger.appendBlock(block);
+			while(isContainsNonce || !nonce.substring(0, 2).equals("00")); //make sure starts with 00 and not in ledger before (puzzle)
+			String hash=generateHash(nonce);
+			Block block = new Block(transactions,nonce,hash);
+			//			ledger.appendBlock(block);
 			announceBlock(block);
 		} 
 		catch (NoSuchAlgorithmException e) {
@@ -231,65 +255,67 @@ public class User {
 
 	public void announceBlock(Block block) throws IOException{
 		// If managed to solve a complex puzzle, a user can then announce a block
-		if(solvedComplexPuzzle()){
-			ProposedBlock proposedBlock = new ProposedBlock(block.getTransactions(), block.getNonce(), this);
-			ArrayList<User> randomTargetPeers = selectTargetPeers();
-			for(User peer : randomTargetPeers){
-				peer.handleProposedBlock(proposedBlock);
-			}
+		//		if(solvedComplexPuzzle()){ //separate function not needed since if complex puzzle is solved then announceBlock function gets called
+		ProposedBlock proposedBlock = new ProposedBlock(block.getTransactions(), block.getNonce(), this, block.getHash());
+		ArrayList<User> randomTargetPeers = selectTargetPeers();
+		for(User peer : randomTargetPeers){
+			peer.handleProposedBlock(proposedBlock);
 		}
+		//		}
 	}
-	
+
 	public void handleProposedBlock(ProposedBlock proposedBlock) throws IOException{
 		String proposerName = proposedBlock.proposer.getName();
-		
-		// Users do not vote for blocks they proposed
-		if(proposerName.equals(name)){
-			appendToLogs(name + " : Cannot vote since I proposed this block");
-			return;
-		}
-		
-		// Users do not vote for blocks they voted for previously 
-		if(proposedBlock.uniqueVoters.contains(name)){
-			appendToLogs(name + " : Cannot vote since I already voted for this block proposed by " + proposerName);
-			return;
-		}
-		
-		proposedBlock.uniqueVoters.add(name);
-		if(proposedBlock.uniqueVoters.size() == Main.usersCount){
-			// All users -except the proposer- voted for the block
-			if(proposedBlock.confirmations > proposedBlock.rejections){
-				appendToLogs(proposerName + " : My block is accepted");
-				proposedBlock.proposer.appendBlock(proposedBlock);
-				Main.ledger.appendBlock(proposedBlock);
-				Main.updateUsersLedgers();
-				// @Mamdouh >>>>>>>>>>>>>> Update all users with the new block
+
+		if(verifyBlockHash(proposedBlock)){ 	//verify that the hashing of block is consistent with the contents of the block first, if not it will be ignored
+			// Users do not vote for blocks they proposed
+			if(proposerName.equals(name)){
+				appendToLogs(name + " : Cannot vote since I proposed this block");
+				return;
+			}
+
+			// Users do not vote for blocks they voted for previously 
+			if(proposedBlock.uniqueVoters.contains(name)){
+				appendToLogs(name + " : Cannot vote since I already voted for this block proposed by " + proposerName);
+				return;
+			}
+
+			proposedBlock.uniqueVoters.add(name);
+			if(proposedBlock.uniqueVoters.size() == Main.usersCount){
+				// All users -except the proposer- voted for the block
+				if(proposedBlock.confirmations > proposedBlock.rejections){
+					appendToLogs(proposerName + " : My block is accepted");
+					proposedBlock.proposer.appendBlock(proposedBlock);
+					Main.ledger.appendBlock(proposedBlock);
+					Main.updateUsersLedgers();
+					// @Mamdouh >>>>>>>>>>>>>> Update all users with the new block
+				}
+				else{
+					appendToLogs(proposerName + " : My block is orphaned");
+					// @Tokyo >>>>>>>>>>>>>> Handle orphaned block
+				}
 			}
 			else{
-				appendToLogs(proposerName + " : My block is orphaned");
-				// @Tokyo >>>>>>>>>>>>>> Handle orphaned block
-			}
-		}
-		else{
-			if(ledger.canBeAppended(proposedBlock))
-				proposedBlock.confirmations++;
-			else
-				proposedBlock.rejections++;
-			
-			
-			// After voting, pass the block to a random set of near peers
-			ArrayList<User> randomTargetPeers = selectTargetPeers();
-			for(User peer : randomTargetPeers){
-				peer.handleProposedBlock(proposedBlock);
+				if(ledger.canBeAppended(proposedBlock))
+					proposedBlock.confirmations++;
+				else
+					proposedBlock.rejections++;
+
+
+				// After voting, pass the block to a random set of near peers
+				ArrayList<User> randomTargetPeers = selectTargetPeers();
+				for(User peer : randomTargetPeers){
+					peer.handleProposedBlock(proposedBlock);
+				}
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		return ((User) obj).name.equals(name);
 	}
-	
+
 	public void appendBlock(Block block) {
 		ledger.appendBlock(block);
 	}
