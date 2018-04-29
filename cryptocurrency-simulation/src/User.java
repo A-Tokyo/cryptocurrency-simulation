@@ -22,7 +22,7 @@ public class User {
 	private Ledger ledger;
 	private PrivateKey privateKey;
 	private PublicKey publicKey;
-	ArrayList<Block> cache;
+	ArrayList<ArrayList<Block>> cache;
 
 	public Ledger getLedger() {
 		return ledger;
@@ -34,6 +34,7 @@ public class User {
 		this.ledger = new Ledger();
 		this.cache = new ArrayList<>();
 		generateKeys();
+		initCache(5);
 
 		//uncomment this segment to have users with public key modulus and exponent as name //TODO: uncomment
 		//		RSAPublicKey rspk=(RSAPublicKey)  publicKey;
@@ -43,6 +44,12 @@ public class User {
 	public void appendToLogs(String text) throws IOException{
 		text = "\n" + text + "\n";
 		Files.write(Paths.get("logs.txt"), text.getBytes(), StandardOpenOption.APPEND);
+	}
+	
+	public void initCache(int size){
+		for (int i = 0; i < size; i++) {
+			cache.add(new ArrayList<>());
+		}
 	}
 
 	public void generateKeysDSA(){
@@ -293,36 +300,59 @@ public class User {
 			peer.handleProposedBlock(proposedBlock);
 		}
 	}
+	
+	public void checkCache(ProposedBlock proposedBlock){
+		for(ArrayList<Block> current_cache : cache){
+			if(current_cache.isEmpty()){
+				current_cache.addAll(ledger.getBlocks());
+			}
+			
+			// Add the proposed block to the current chain if it's possible
+			Block current_last = current_cache.get(current_cache.size()-1);
+			if(proposedBlock.getPrevBlock().equals(current_last)){
+				current_cache.add(proposedBlock);
+			}
+			
+			// If the current cache is larger than the ledger, swap them
+			if(current_cache.size() > ledger.getBlocks().size()){
+				ArrayList<Block> temp = new ArrayList<>();
+				temp.addAll(ledger.getBlocks());
+				
+				ledger.getBlocks().clear();
+				ledger.getBlocks().addAll(current_cache);
+				current_cache.addAll(temp);
+			}
+			
+			// Drop the current cache if the ledger is larger with 3 or more blocks
+			if(ledger.getBlocks().size() - current_cache.size() >= 3){
+				cache.remove(current_cache);
+			}
+		}
+	}
 
 	public void updateLedgerAndCache(ProposedBlock proposedBlock){
-		// Append the block to the ledger if it can be appended
-		if(ledger.canBeAppended(proposedBlock)){
-			appendBlock(proposedBlock);
-		}
-		
-		// If cache is empty, add to it all blocks from the ledger
-		if(cache.isEmpty()){
-			cache.addAll(ledger.getBlocks());
-		}
-		
-		// Append the block to the cache if it can be appended
-		if(proposedBlock.getPrevBlock().equals(cache.get(cache.size()-1))){
-			cache.add(proposedBlock);
-		}
-		
-		// If the cache is larger than the ledger, swap them 
-		if(cache.size() > ledger.getBlocks().size()){
-			ArrayList<Block> temp = new ArrayList<>();
-			temp.addAll(ledger.getBlocks());
+		if(ledger.getBlocks().size() >= 1){
+			Block last = ledger.getBlocks().get(ledger.getBlocks().size()-1);
 			
-			ledger.getBlocks().clear();
-			ledger.getBlocks().addAll(cache);
-			cache.addAll(temp);
+			if(proposedBlock.getPrevBlock().equals(last)){
+				appendBlock(proposedBlock);
+			}
 		}
 		
-		// If the ledger has 3 blocks more than the cache, clear the cache
-		if(ledger.getBlocks().size() - cache.size() >= 3){
-			cache.clear();
+		if(ledger.getBlocks().size() >= 2){
+			Block before_last = ledger.getBlocks().get(ledger.getBlocks().size()-2);
+			
+			if(proposedBlock.getPrevBlock().equals(before_last)){
+				checkCache(proposedBlock);
+			}
+		}
+		
+		if(ledger.getBlocks().size() >= 3){
+			Block before_before_last = ledger.getBlocks().get(ledger.getBlocks().size()-3);
+			
+			if(proposedBlock.getPrevBlock().equals(before_before_last)){
+				checkCache(proposedBlock);
+			}
 		}
 	}
 	
