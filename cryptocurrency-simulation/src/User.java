@@ -45,7 +45,7 @@ public class User {
 		text = "\n" + text + "\n";
 		Files.write(Paths.get("logs.txt"), text.getBytes(), StandardOpenOption.APPEND);
 	}
-	
+
 	public void initCache(int size){
 		for (int i = 0; i < size; i++) {
 			cache.add(new ArrayList<>());
@@ -233,6 +233,7 @@ public class User {
 
 	//verify that the hashing of block is consistent to what the block contains
 	public Boolean verifyBlockHash(Block block){
+		System.out.print(".");
 		String hashStr=block.getTransactions().toString()+block.getPrevBlock().getHash()+block.getNonce();
 		MessageDigest digest;
 		try {
@@ -247,7 +248,7 @@ public class User {
 		}
 
 	}
-	
+
 	public void createBlock() throws IOException{
 		try {
 			boolean isContainsNonce=false;
@@ -294,35 +295,36 @@ public class User {
 
 	public void announceBlock(Block block) throws IOException{
 		// If managed to solve a complex puzzle, a user can then announce a block
-		ProposedBlock proposedBlock = new ProposedBlock(block.getTransactions(), block.getNonce(), this, block.getHash());
+		ProposedBlock proposedBlock = new ProposedBlock(block,this);
 		ArrayList<User> randomTargetPeers = selectTargetPeers();
+		appendToLogs(name + " : Created a block and will Announce to " +randomTargetPeers);
 		for(User peer : randomTargetPeers){
 			peer.handleProposedBlock(proposedBlock);
 		}
 	}
-	
+
 	public void checkCache(ProposedBlock proposedBlock){
 		for(ArrayList<Block> current_cache : cache){
 			if(current_cache.isEmpty()){
 				current_cache.addAll(ledger.getBlocks());
 			}
-			
+
 			// Add the proposed block to the current chain if it's possible
 			Block current_last = current_cache.get(current_cache.size()-1);
 			if(proposedBlock.getPrevBlock().equals(current_last)){
 				current_cache.add(proposedBlock);
 			}
-			
+
 			// If the current cache is larger than the ledger, swap them
 			if(current_cache.size() > ledger.getBlocks().size()){
 				ArrayList<Block> temp = new ArrayList<>();
 				temp.addAll(ledger.getBlocks());
-				
+
 				ledger.getBlocks().clear();
 				ledger.getBlocks().addAll(current_cache);
 				current_cache.addAll(temp);
 			}
-			
+
 			// Drop the current cache if the ledger is larger with 3 or more blocks
 			if(ledger.getBlocks().size() - current_cache.size() >= 3){
 				cache.remove(current_cache);
@@ -333,78 +335,85 @@ public class User {
 	public void updateLedgerAndCache(ProposedBlock proposedBlock){
 		if(ledger.getBlocks().size() >= 1){
 			Block last = ledger.getBlocks().get(ledger.getBlocks().size()-1);
-			
+
 			if(proposedBlock.getPrevBlock().equals(last)){
 				appendBlock(proposedBlock);
 			}
 		}
-		
+
 		if(ledger.getBlocks().size() >= 2){
 			Block before_last = ledger.getBlocks().get(ledger.getBlocks().size()-2);
-			
+
 			if(proposedBlock.getPrevBlock().equals(before_last)){
 				checkCache(proposedBlock);
 			}
 		}
-		
+
 		if(ledger.getBlocks().size() >= 3){
 			Block before_before_last = ledger.getBlocks().get(ledger.getBlocks().size()-3);
-			
+
 			if(proposedBlock.getPrevBlock().equals(before_before_last)){
 				checkCache(proposedBlock);
 			}
 		}
 	}
-	
+
 	public void handleProposedBlock(ProposedBlock proposedBlock) throws IOException{
 		String proposerName = proposedBlock.proposer.getName();
-		appendToLogs(name + " : Received a block from "+ proposerName + ". Verifying it.");
-		
+		appendToLogs(name + " : Received a block from "+ proposerName + ". Verifying it first.");
+
 		// Verify that the hashing of block is consistent with the contents of the block first, if not it will be ignored
 		if(verifyBlockHash(proposedBlock)){
 			appendToLogs(name + " : Sucessfully verified the recieved block");
-			// Users do not vote for blocks they proposed
-			if(proposerName.equals(name)){
-				appendToLogs(name + " : Cannot vote since I proposed this block");
-				return;
-			}
 
-			// Users do not vote for blocks they voted for previously 
-			if(proposedBlock.uniqueVoters.contains(name)){
-				appendToLogs(name + " : Cannot vote since I already voted for this block proposed by " + proposerName);
-				return;
-			}
+			if(authenticateBlockTransactions(proposedBlock)){ //authenticate transactions in block
+				appendToLogs(name + " : Sucessfully Authenticated the transactions in the recieved Block");
+				// Users do not vote for blocks they proposed
+				if(proposerName.equals(name)){
+					appendToLogs(name + " : Cannot vote since I proposed this block");
+					return;
+				}
 
-			proposedBlock.uniqueVoters.add(name);
-			if(proposedBlock.uniqueVoters.size() == Main.usersCount - 1){
-				// All users -except the proposer- voted for the block
-				if(proposedBlock.confirmations > proposedBlock.rejections){
-					appendToLogs(proposerName + " : My block is accepted");
-					proposedBlock.proposer.transactions.clear();
-					
-					// Update all users to include the accepted block
-					Main.mainLedger.appendBlock(proposedBlock);
-					Main.updateUsersLedgers();
+				// Users do not vote for blocks they voted for previously 
+				if(proposedBlock.uniqueVoters.contains(name)){
+					appendToLogs(name + " : Cannot vote since I already voted for this block proposed by " + proposerName);
+					return;
+				}
+
+				proposedBlock.uniqueVoters.add(name);
+				if(proposedBlock.uniqueVoters.size() == Main.usersCount - 1){
+					// All users -except the proposer- voted for the block
+					if(proposedBlock.confirmations > proposedBlock.rejections){
+						appendToLogs(proposerName + " : My block is accepted");
+						proposedBlock.proposer.transactions.clear();
+
+						// Update all users to include the accepted block
+						Main.mainLedger.appendBlock(proposedBlock);
+						Main.updateUsersLedgers();
+					}
+					else{
+						appendToLogs(proposerName + " : My block is orphaned. Trying again.");
+						proposedBlock.proposer.createBlock(proposedBlock.getTransactions());
+					}
 				}
 				else{
-					appendToLogs(proposerName + " : My block is orphaned. Trying again.");
-					proposedBlock.proposer.createBlock(proposedBlock.getTransactions());
+					if(ledger.canBeAppended(proposedBlock)){
+						proposedBlock.confirmations++;
+						updateLedgerAndCache(proposedBlock);
+					}
+					else{
+						proposedBlock.rejections++;
+					}
+
+					// After voting, pass the block to a random set of near peers
+					ArrayList<User> randomTargetPeers = selectTargetPeers();
+					for(User peer : randomTargetPeers){
+						peer.handleProposedBlock(proposedBlock);
+					}
 				}
 			}
 			else{
-				if(ledger.canBeAppended(proposedBlock)){
-					proposedBlock.confirmations++;
-					updateLedgerAndCache(proposedBlock);
-				}
-				else{
-					proposedBlock.rejections++;
-				}
-
-				// After voting, pass the block to a random set of near peers
-				ArrayList<User> randomTargetPeers = selectTargetPeers();
-				for(User peer : randomTargetPeers){
-					peer.handleProposedBlock(proposedBlock);
-				}
+				appendToLogs("Authentication of Transactions in Block failed due to invalid signatures therfore willl ignore the block");
 			}
 		}
 		else {

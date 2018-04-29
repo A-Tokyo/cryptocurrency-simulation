@@ -1,55 +1,87 @@
 
-E : Announcing transaction 31 to [D, A]
+B : Announcing transaction 31 to [C, A]
 
-User D authenticating transaction 31 first before accepting and announcing to peers
+User C authenticating transaction 31 first before accepting and announcing to peers
 
-Authentication successful, user D will add transaction 31 and forward to peers
+Authentication successful, user C will add transaction 31 and forward to peers
 
-D : Announcing transaction 31 to [E]
+C : Announcing transaction 31 to [E, B, A]
 
 User E authenticating transaction 31 first before accepting and announcing to peers
 
 Authentication successful, user E will add transaction 31 and forward to peers
 
-E : Announcing transaction 31 to [A, D]
+E : Announcing transaction 31 to [C]
 
-User A authenticating transaction 31 first before accepting and announcing to peers
-
-Authentication successful, user A will add transaction 31 and forward to peers
-
-A : Announcing transaction 31 to [B]
+Transaction 31 already in C so not added or announced from user C
 
 User B authenticating transaction 31 first before accepting and announcing to peers
 
 Authentication successful, user B will add transaction 31 and forward to peers
 
-B : Announcing transaction 31 to [D]
+B : Announcing transaction 31 to [C, D, A]
 
-Transaction 31 already in D so not added or announced from user D
+Transaction 31 already in C so not added or announced from user C
+
+User D authenticating transaction 31 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 31 and forward to peers
+
+D : Announcing transaction 31 to [E, B, A]
+
+Transaction 31 already in E so not added or announced from user E
+
+Transaction 31 already in B so not added or announced from user B
+
+User A authenticating transaction 31 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 31 and forward to peers
+
+A : Announcing transaction 31 to [B, C, D]
+
+Transaction 31 already in B so not added or announced from user B
+
+Transaction 31 already in C so not added or announced from user C
 
 Transaction 31 already in D so not added or announced from user D
 
 Transaction 31 already in A so not added or announced from user A
 
-E : Announcing transaction 32 to [A]
+Transaction 31 already in A so not added or announced from user A
+
+Transaction 31 already in A so not added or announced from user A
+
+B : Announcing transaction 32 to [D, C, A]
+
+User D authenticating transaction 32 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 32 and forward to peers
+
+D : Announcing transaction 32 to [A, B, E]
 
 User A authenticating transaction 32 first before accepting and announcing to peers
 
 Authentication successful, user A will add transaction 32 and forward to peers
 
-A : Announcing transaction 32 to [E, B, D, C]
+A : Announcing transaction 32 to [D, E, C]
+
+Transaction 32 already in D so not added or announced from user D
 
 User E authenticating transaction 32 first before accepting and announcing to peers
 
 Authentication successful, user E will add transaction 32 and forward to peers
 
-E : Announcing transaction 32 to [C, A, D]
+E : Announcing transaction 32 to [D]
+
+Transaction 32 already in D so not added or announced from user D
 
 User C authenticating transaction 32 first before accepting and announcing to peers
 
 Authentication successful, user C will add transaction 32 and forward to peers
 
-C : Announcing transaction 32 to [A, B]
+C : Announcing transaction 32 to [E, A]
+
+Transaction 32 already in E so not added or announced from user E
 
 Transaction 32 already in A so not added or announced from user A
 
@@ -57,74 +89,2342 @@ User B authenticating transaction 32 first before accepting and announcing to pe
 
 Authentication successful, user B will add transaction 32 and forward to peers
 
-B : Announcing transaction 32 to [A]
-
-Transaction 32 already in A so not added or announced from user A
-
-Transaction 32 already in A so not added or announced from user A
-
-User D authenticating transaction 32 first before accepting and announcing to peers
-
-Authentication successful, user D will add transaction 32 and forward to peers
-
-D : Announcing transaction 32 to [B, E]
-
-Transaction 32 already in B so not added or announced from user B
-
-Transaction 32 already in E so not added or announced from user E
-
-Transaction 32 already in B so not added or announced from user B
+B : Announcing transaction 32 to [D]
 
 Transaction 32 already in D so not added or announced from user D
 
+Transaction 32 already in E so not added or announced from user E
+
 Transaction 32 already in C so not added or announced from user C
 
-E : Announcing transaction 33 to [A, C, D]
+Transaction 32 already in A so not added or announced from user A
 
-User A authenticating transaction 33 first before accepting and announcing to peers
-
-Authentication successful, user A will add transaction 33 and forward to peers
-
-A : Announcing transaction 33 to [B, C]
-
-User B authenticating transaction 33 first before accepting and announcing to peers
-
-Authentication successful, user B will add transaction 33 and forward to peers
-
-B : Announcing transaction 33 to [D, C]
-
-User D authenticating transaction 33 first before accepting and announcing to peers
-
-Authentication successful, user D will add transaction 33 and forward to peers
-
-D : Announcing transaction 33 to [A, E, B]
-
-Transaction 33 already in A so not added or announced from user A
-
-User E authenticating transaction 33 first before accepting and announcing to peers
-
-Authentication successful, user E will add transaction 33 and forward to peers
-
-E : Announcing transaction 33 to [C, D]
+B : Announcing transaction 33 to [C]
 
 User C authenticating transaction 33 first before accepting and announcing to peers
 
 Authentication successful, user C will add transaction 33 and forward to peers
 
-C : Announcing transaction 33 to [A, E]
+C : Announcing transaction 33 to [E, A]
 
-Transaction 33 already in A so not added or announced from user A
+User E authenticating transaction 33 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 33 and forward to peers
+
+E : Announcing transaction 33 to [A, C]
+
+User A authenticating transaction 33 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 33 and forward to peers
+
+A : Announcing transaction 33 to [E, B, D]
 
 Transaction 33 already in E so not added or announced from user E
 
-Transaction 33 already in D so not added or announced from user D
+User B authenticating transaction 33 first before accepting and announcing to peers
 
-Transaction 33 already in B so not added or announced from user B
+Authentication successful, user B will add transaction 33 and forward to peers
 
-Transaction 33 already in C so not added or announced from user C
-
-Transaction 33 already in C so not added or announced from user C
+B : Announcing transaction 33 to [C]
 
 Transaction 33 already in C so not added or announced from user C
 
-Transaction 33 already in D so not added or announced from user D
+User D authenticating transaction 33 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 33 and forward to peers
+
+D : Announcing transaction 33 to [A]
+
+Transaction 33 already in A so not added or announced from user A
+
+Transaction 33 already in C so not added or announced from user C
+
+Transaction 33 already in A so not added or announced from user A
+
+B : Announcing transaction 34 to [C, A, D]
+
+User C authenticating transaction 34 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 34 and forward to peers
+
+C : Announcing transaction 34 to [E, B, A]
+
+User E authenticating transaction 34 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 34 and forward to peers
+
+E : Announcing transaction 34 to [A, D]
+
+User A authenticating transaction 34 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 34 and forward to peers
+
+A : Announcing transaction 34 to [D, B, C, E]
+
+User D authenticating transaction 34 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 34 and forward to peers
+
+D : Announcing transaction 34 to [E, B]
+
+Transaction 34 already in E so not added or announced from user E
+
+User B authenticating transaction 34 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 34 and forward to peers
+
+B : Announcing transaction 34 to [D, C, A]
+
+Transaction 34 already in D so not added or announced from user D
+
+Transaction 34 already in C so not added or announced from user C
+
+Transaction 34 already in A so not added or announced from user A
+
+Transaction 34 already in B so not added or announced from user B
+
+Transaction 34 already in C so not added or announced from user C
+
+Transaction 34 already in E so not added or announced from user E
+
+Transaction 34 already in D so not added or announced from user D
+
+Transaction 34 already in B so not added or announced from user B
+
+Transaction 34 already in A so not added or announced from user A
+
+Transaction 34 already in A so not added or announced from user A
+
+Transaction 34 already in D so not added or announced from user D
+
+A : Announcing transaction 35 to [D]
+
+User D authenticating transaction 35 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 35 and forward to peers
+
+D : Created a block and will Announce to [B, A, E]
+
+B : Received a block from D. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from D. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from D. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I proposed this block
+
+E : Received a block from D. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from D. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by D
+
+B : Received a block from D. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by D
+
+C : Received a block from D. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+D : My block is orphaned. Trying again.
+
+D : Created a block and will Announce to [E, A]
+
+E : Received a block from D. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from D. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from D. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from D. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I proposed this block
+
+C : Received a block from D. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by D
+
+A : Received a block from D. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+D : My block is orphaned. Trying again.
+
+D : Created a block and will Announce to [E, A]
+
+E : Received a block from D. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from D. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from D. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I proposed this block
+
+C : Received a block from D. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from D. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by D
+
+A : Received a block from D. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by D
+
+E : Received a block from D. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by D
+
+A : Received a block from D. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by D
+
+D : Received a block from D. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I proposed this block
+
+A : Received a block from D. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by D
+
+C : Received a block from D. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by D
+
+D : Received a block from D. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I proposed this block
+
+A : Received a block from D. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by D
+
+E : Received a block from D. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by D
+
+User D created a block and appended it to the ledger
+
+D : Announcing transaction 35 to [A, B, E]
+
+User A authenticating transaction 35 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 35 and forward to peers
+
+A : Created a block and will Announce to [C]
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by A
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [E, B, D, C]
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by A
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [B, C, E, D]
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by A
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by A
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by A
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by A
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [B, E, D, C]
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [B, C, D]
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by A
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [E, D]
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [D]
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [C]
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by A
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by A
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [D]
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [D, B, C, E]
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by A
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by A
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [E, D, C, B]
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by A
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [C, D, B, E]
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by A
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by A
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : My block is orphaned. Trying again.
+
+A : Created a block and will Announce to [B, D]
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by A
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by A
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by A
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by A
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+B : Received a block from A. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by A
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by A
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by A
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+A : Received a block from A. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I proposed this block
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by A
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by A
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by A
+
+D : Received a block from A. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by A
+
+C : Received a block from A. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by A
+
+E : Received a block from A. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by A
+
+User A created a block and appended it to the ledger
+
+A : Announcing transaction 35 to [C, B, E]
+
+User C authenticating transaction 35 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 35 and forward to peers
+
+C : Created a block and will Announce to [B]
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from C. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from C. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by C
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : My block is orphaned. Trying again.
+
+C : Created a block and will Announce to [B, E]
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from C. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from C. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by C
+
+C : Received a block from C. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I proposed this block
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by C
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : My block is orphaned. Trying again.
+
+C : Created a block and will Announce to [B, A]
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from C. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I proposed this block
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from C. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I proposed this block
+
+D : Received a block from C. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by C
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by C
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : My block is orphaned. Trying again.
+
+C : Created a block and will Announce to [A, B, E]
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from C. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by C
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by C
+
+D : Received a block from C. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by C
+
+C : Received a block from C. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I proposed this block
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : My block is orphaned. Trying again.
+
+C : Created a block and will Announce to [E, B]
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from C. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I proposed this block
+
+D : Received a block from C. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+C : My block is orphaned. Trying again.
+
+C : Created a block and will Announce to [B, A, E]
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from C. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by C
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by C
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : My block is orphaned. Trying again.
+
+C : Created a block and will Announce to [A, E]
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by C
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by C
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by C
+
+C : Received a block from C. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I proposed this block
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by C
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by C
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by C
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by C
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by C
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by C
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by C
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by C
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by C
+
+A : Received a block from C. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by C
+
+E : Received a block from C. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by C
+
+B : Received a block from C. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by C
+
+C : Received a block from C. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I proposed this block
+
+User C created a block and appended it to the ledger
+
+C : Announcing transaction 35 to [B, E]
+
+User B authenticating transaction 35 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 35 and forward to peers
+
+B : Created a block and will Announce to [A, C]
+
+A : Received a block from B. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Received a block from B. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from B. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from B. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I proposed this block
+
+E : Received a block from B. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I already voted for this block proposed by B
+
+D : Received a block from B. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+B : My block is orphaned. Trying again.
+
+B : Created a block and will Announce to [C]
+
+C : Received a block from B. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from B. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I proposed this block
+
+A : Received a block from B. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by B
+
+C : Received a block from B. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by B
+
+D : Received a block from B. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by B
+
+C : Received a block from B. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by B
+
+User B created a block and appended it to the ledger
+
+B : Announcing transaction 35 to [A]
+
+Transaction 35 already in A so not added or announced from user A
+
+User E authenticating transaction 35 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 35 and forward to peers
+
+E : Created a block and will Announce to [C, D, A]
+
+C : Received a block from E. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Received a block from E. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I proposed this block
+
+B : Received a block from E. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from E. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Received a block from E. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I proposed this block
+
+A : Received a block from E. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+E : My block is orphaned. Trying again.
+
+E : Created a block and will Announce to [A, C, D]
+
+A : Received a block from E. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Received a block from E. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I proposed this block
+
+C : Received a block from E. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from E. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by E
+
+D : Received a block from E. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from E. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by E
+
+E : Received a block from E. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I proposed this block
+
+B : Received a block from E. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+E : My block is orphaned. Trying again.
+
+E : Created a block and will Announce to [A, D]
+
+A : Received a block from E. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Received a block from E. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from E. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Received a block from E. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by E
+
+D : Received a block from E. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by E
+
+C : Received a block from E. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+E : My block is orphaned. Trying again.
+
+E : Created a block and will Announce to [C]
+
+C : Received a block from E. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Received a block from E. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from E. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by E
+
+A : Received a block from E. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Received a block from E. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by E
+
+E : Received a block from E. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I proposed this block
+
+B : Received a block from E. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by E
+
+E : Received a block from E. Verifying it first.
+
+E : Sucessfully verified the recieved block
+
+E : Sucessfully Authenticated the transactions in the recieved Block
+
+E : Cannot vote since I proposed this block
+
+A : Received a block from E. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by E
+
+D : Received a block from E. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by E
+
+B : Received a block from E. Verifying it first.
+
+B : Sucessfully verified the recieved block
+
+B : Sucessfully Authenticated the transactions in the recieved Block
+
+B : Cannot vote since I already voted for this block proposed by E
+
+C : Received a block from E. Verifying it first.
+
+C : Sucessfully verified the recieved block
+
+C : Sucessfully Authenticated the transactions in the recieved Block
+
+C : Cannot vote since I already voted for this block proposed by E
+
+D : Received a block from E. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by E
+
+D : Received a block from E. Verifying it first.
+
+D : Sucessfully verified the recieved block
+
+D : Sucessfully Authenticated the transactions in the recieved Block
+
+D : Cannot vote since I already voted for this block proposed by E
+
+A : Received a block from E. Verifying it first.
+
+A : Sucessfully verified the recieved block
+
+A : Sucessfully Authenticated the transactions in the recieved Block
+
+A : Cannot vote since I already voted for this block proposed by E
+
+User E created a block and appended it to the ledger
+
+E : Announcing transaction 35 to [D, C]
+
+Transaction 35 already in D so not added or announced from user D
+
+Transaction 35 already in C so not added or announced from user C
+
+Transaction 35 already in B so not added or announced from user B
+
+Transaction 35 already in E so not added or announced from user E
+
+Transaction 35 already in B so not added or announced from user B
+
+Transaction 35 already in E so not added or announced from user E
+
+A : Announcing transaction 36 to [B, E]
+
+User B authenticating transaction 36 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 36 and forward to peers
+
+B : Announcing transaction 36 to [D, A]
+
+User D authenticating transaction 36 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 36 and forward to peers
+
+D : Announcing transaction 36 to [E, A]
+
+User E authenticating transaction 36 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 36 and forward to peers
+
+E : Announcing transaction 36 to [D, C]
+
+Transaction 36 already in D so not added or announced from user D
+
+User C authenticating transaction 36 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 36 and forward to peers
+
+C : Announcing transaction 36 to [A, E, B]
+
+User A authenticating transaction 36 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 36 and forward to peers
+
+A : Announcing transaction 36 to [E]
+
+Transaction 36 already in E so not added or announced from user E
+
+Transaction 36 already in E so not added or announced from user E
+
+Transaction 36 already in B so not added or announced from user B
+
+Transaction 36 already in A so not added or announced from user A
+
+Transaction 36 already in A so not added or announced from user A
+
+Transaction 36 already in E so not added or announced from user E
+
+A : Announcing transaction 37 to [B]
+
+User B authenticating transaction 37 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 37 and forward to peers
+
+B : Announcing transaction 37 to [A, D]
+
+User A authenticating transaction 37 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 37 and forward to peers
+
+A : Announcing transaction 37 to [D, B]
+
+User D authenticating transaction 37 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 37 and forward to peers
+
+D : Announcing transaction 37 to [E, A, B]
+
+User E authenticating transaction 37 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 37 and forward to peers
+
+E : Announcing transaction 37 to [D, A, C]
+
+Transaction 37 already in D so not added or announced from user D
+
+Transaction 37 already in A so not added or announced from user A
+
+User C authenticating transaction 37 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 37 and forward to peers
+
+C : Announcing transaction 37 to [A, B]
+
+Transaction 37 already in A so not added or announced from user A
+
+Transaction 37 already in B so not added or announced from user B
+
+Transaction 37 already in A so not added or announced from user A
+
+Transaction 37 already in B so not added or announced from user B
+
+Transaction 37 already in B so not added or announced from user B
+
+Transaction 37 already in D so not added or announced from user D
+
+C : Announcing transaction 38 to [B, A, E]
+
+User B authenticating transaction 38 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 38 and forward to peers
+
+B : Announcing transaction 38 to [D]
+
+User D authenticating transaction 38 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 38 and forward to peers
+
+D : Announcing transaction 38 to [E]
+
+User E authenticating transaction 38 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 38 and forward to peers
+
+E : Announcing transaction 38 to [A, D]
+
+User A authenticating transaction 38 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 38 and forward to peers
+
+A : Announcing transaction 38 to [C]
+
+User C authenticating transaction 38 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 38 and forward to peers
+
+C : Announcing transaction 38 to [A, B, E]
+
+Transaction 38 already in A so not added or announced from user A
+
+Transaction 38 already in B so not added or announced from user B
+
+Transaction 38 already in E so not added or announced from user E
+
+Transaction 38 already in D so not added or announced from user D
+
+Transaction 38 already in A so not added or announced from user A
+
+Transaction 38 already in E so not added or announced from user E
+
+C : Announcing transaction 39 to [E, A]
+
+User E authenticating transaction 39 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 39 and forward to peers
+
+E : Announcing transaction 39 to [C]
+
+User C authenticating transaction 39 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 39 and forward to peers
+
+C : Announcing transaction 39 to [E, B, A]
+
+Transaction 39 already in E so not added or announced from user E
+
+User B authenticating transaction 39 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 39 and forward to peers
+
+B : Announcing transaction 39 to [C]
+
+Transaction 39 already in C so not added or announced from user C
+
+User A authenticating transaction 39 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 39 and forward to peers
+
+A : Announcing transaction 39 to [E, C, D]
+
+Transaction 39 already in E so not added or announced from user E
+
+Transaction 39 already in C so not added or announced from user C
+
+User D authenticating transaction 39 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 39 and forward to peers
+
+D : Announcing transaction 39 to [E, A, B]
+
+Transaction 39 already in E so not added or announced from user E
+
+Transaction 39 already in A so not added or announced from user A
+
+Transaction 39 already in B so not added or announced from user B
+
+Transaction 39 already in A so not added or announced from user A
+
+C : Announcing transaction 40 to [E]
+
+User E authenticating transaction 40 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 40 and forward to peers
+
+E : Announcing transaction 40 to [A, D]
+
+User A authenticating transaction 40 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 40 and forward to peers
+
+A : Announcing transaction 40 to [E, D, C]
+
+Transaction 40 already in E so not added or announced from user E
+
+User D authenticating transaction 40 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 40 and forward to peers
+
+D : Announcing transaction 40 to [B, A]
+
+User B authenticating transaction 40 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 40 and forward to peers
+
+B : Announcing transaction 40 to [C, A, D]
+
+User C authenticating transaction 40 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 40 and forward to peers
+
+C : Announcing transaction 40 to [A]
+
+Transaction 40 already in A so not added or announced from user A
+
+Transaction 40 already in A so not added or announced from user A
+
+Transaction 40 already in D so not added or announced from user D
+
+Transaction 40 already in A so not added or announced from user A
+
+Transaction 40 already in C so not added or announced from user C
+
+Transaction 40 already in D so not added or announced from user D
+
+D : Announcing transaction 41 to [B]
+
+User B authenticating transaction 41 first before accepting and announcing to peers
+
+Authentication successful, user B will add transaction 41 and forward to peers
+
+B : Announcing transaction 41 to [D, A, C]
+
+User D authenticating transaction 41 first before accepting and announcing to peers
+
+Authentication successful, user D will add transaction 41 and forward to peers
+
+D : Announcing transaction 41 to [E]
+
+User E authenticating transaction 41 first before accepting and announcing to peers
+
+Authentication successful, user E will add transaction 41 and forward to peers
+
+E : Announcing transaction 41 to [D, A, C]
+
+Transaction 41 already in D so not added or announced from user D
+
+User A authenticating transaction 41 first before accepting and announcing to peers
+
+Authentication successful, user A will add transaction 41 and forward to peers
+
+A : Announcing transaction 41 to [D]
+
+Transaction 41 already in D so not added or announced from user D
+
+User C authenticating transaction 41 first before accepting and announcing to peers
+
+Authentication successful, user C will add transaction 41 and forward to peers
+
+C : Announcing transaction 41 to [B, A, E]
+
+Transaction 41 already in B so not added or announced from user B
+
+Transaction 41 already in A so not added or announced from user A
+
+Transaction 41 already in E so not added or announced from user E
+
+Transaction 41 already in A so not added or announced from user A
+
+Transaction 41 already in C so not added or announced from user C
