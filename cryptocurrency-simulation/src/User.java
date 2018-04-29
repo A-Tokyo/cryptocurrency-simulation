@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Random;
-
 import cipher.CipherHelpers;
 
 public class User {
@@ -35,16 +34,10 @@ public class User {
 		this.ledger = new Ledger();
 		this.cache = new ArrayList<>();
 		generateKeys();
-		
-		//uncomment this segment to have users with public key modulus and exponent as name
-		//		try {
-		//			RSAPublicKey rspk=(RSAPublicKey)  publicKey;
-		//			this.name=rspk.getModulus().toString()+rspk.getPublicExponent().toString();
-		//
-		//		} catch (NoSuchAlgorithmException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
+
+		//uncomment this segment to have users with public key modulus and exponent as name //TODO: uncomment
+		//		RSAPublicKey rspk=(RSAPublicKey)  publicKey;
+		//		this.name=rspk.getModulus().toString()+rspk.getPublicExponent().toString();
 	}
 
 	public void appendToLogs(String text) throws IOException{
@@ -178,7 +171,7 @@ public class User {
 			// Receive and see if a block can be formed
 			PublicKey pk = getOriginatorPublicKey(transaction);
 			appendToLogs("User "+name+" authenticating transaction "+transaction.getId() +" first before accepting and announcing to peers");
-			System.out.println();
+			System.out.print(".");
 			if(verifySignature(transaction.getSignature(),transaction.getContent(),pk)){
 				appendToLogs("Authentication successful, user "+name+ " will add transaction "+transaction.getId() +" and forward to peers");
 				transactions.add(transaction);
@@ -210,27 +203,36 @@ public class User {
 	}
 
 	public String generateHash(String nonce) throws NoSuchAlgorithmException{
-//		Block prevBlock=ledger.lastBlock(); //TODO: handle genesis block
-//		if(prevBlock==null)
-//			prevBlock=;
 		String hashStr= transactions.toString()+ledger.lastBlock().getHash()+nonce; //TODO: handle genesis block
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
 		byte[] hash = digest.digest(hashStr.getBytes(StandardCharsets.UTF_8));
 		String encoded = Base64.getEncoder().encodeToString(hash);
 		return encoded;
 	}
-	
+
+	public Boolean authenticateBlockTransactions(Block block){
+		for(Transaction transaction : block.getTransactions()){
+			PublicKey pk = getOriginatorPublicKey(transaction);
+			try {
+				if(!verifySignature(transaction.getSignature(),transaction.getContent(),pk)) //if verification false
+					return false;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
+
 	//verify that the hashing of block is consistent to what the block contains
 	public Boolean verifyBlockHash(Block block){
-		String hashStr=block.getTransactions().toString()+block.getPrevBlock().getHash()+block.getNonce(); //TODO: handle genesis block
+		String hashStr=block.getTransactions().toString()+block.getPrevBlock().getHash()+block.getNonce();
 		MessageDigest digest;
 		try {
 			digest = MessageDigest.getInstance("SHA-256");
 			byte[] hash = digest.digest(hashStr.getBytes(StandardCharsets.UTF_8));
 			String encoded = Base64.getEncoder().encodeToString(hash);
-			if(block.getHash().equals(encoded))
-				return true;
-			else return false;
+			return block.getHash().equals(encoded);
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -250,7 +252,6 @@ public class User {
 			while(isContainsNonce || !nonce.substring(0, 2).equals("00")); //make sure starts with 00 and not in ledger before (puzzle)
 			String hash = generateHash(nonce);
 			Block block = new Block(transactions,nonce,hash);
-
 			block.linkPrevBlock(ledger.lastBlock());
 			appendBlock(block);
 			announceBlock(block);
@@ -299,8 +300,13 @@ public class User {
 			appendBlock(proposedBlock);
 		}
 		
+		// If cache is empty, add to it all blocks from the ledger
+		if(cache.isEmpty()){
+			cache.addAll(ledger.getBlocks());
+		}
+		
 		// Append the block to the cache if it can be appended
-		if(cache.isEmpty() || proposedBlock.getPrevBlock().equals(cache.get(cache.size()-1))){
+		if(proposedBlock.getPrevBlock().equals(cache.get(cache.size()-1))){
 			cache.add(proposedBlock);
 		}
 		
@@ -375,6 +381,7 @@ public class User {
 			appendToLogs(name + " : Ignored block since computed hash and block's hash are different");
 		}
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {

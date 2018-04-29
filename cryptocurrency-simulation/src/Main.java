@@ -114,7 +114,7 @@ public class Main {
 
 		// To test the network with many users announcing many transactions
 		sendTransactions();
-		System.out.println("Please look in logs.txt for output. It gets cleared at the start of every run.");
+		System.out.println("\nPlease look in logs.txt for output. It gets cleared at the start of every run.");
 
 		// To test signatures
 //		 a.announceTransaction(a.generateTransaction());
