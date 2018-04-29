@@ -10,7 +10,7 @@ public class Ledger {
 		//adding genesis block in ledger
 		ArrayList<Transaction> genesisTransactions=new ArrayList<Transaction>();
 		for(int i=0;i<5;i++){
-		genesisTransactions.add(new Transaction("genesis", "genesis", "genesis", null)); //maybe do a genesis key in future
+			genesisTransactions.add(new Transaction("genesis", "genesis", "genesis", null)); //maybe do a genesis key in future
 		}
 		Block genesisBlock=new Block(genesisTransactions, "genesis", "genesis");
 		blocks.add(genesisBlock);

@@ -8,7 +8,7 @@ import java.util.Random;
 public class Main {
 	static Hashtable<String, ArrayList<User>> networkGraph;
 	static ArrayList<User> usersList;
-	static Ledger ledger;
+	static Ledger mainLedger;
 	static int usersCount;
 	
 	public static int randomInt(int min, int max){
@@ -17,8 +17,15 @@ public class Main {
 	}
 	
 	public static void updateUsersLedgers() {
+		Block mostRecentBlock = mainLedger.lastBlock();
+
 		for (User user : usersList) {
-			user.appendBlock(ledger.getBlocks().get(ledger.getBlocks().size()-1));
+			Block currentLastBlock = user.getLedger().lastBlock();
+			
+			if(!currentLastBlock.getHash().equals(mostRecentBlock.getHash())){
+				// Current last is not the most recent block
+				user.appendBlock(mostRecentBlock);
+			}
 		}
 	}
 	
@@ -48,7 +55,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		networkGraph = new Hashtable<>();
 		usersList = new ArrayList<>();
-		ledger = new Ledger();
+		mainLedger = new Ledger();
 		clearLogs();
 		
 		User a = new User("A");

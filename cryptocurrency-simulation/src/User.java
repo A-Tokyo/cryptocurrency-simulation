@@ -23,12 +23,19 @@ public class User {
 	private Ledger ledger;
 	private PrivateKey privateKey;
 	private PublicKey publicKey;
+	ArrayList<Block> cache;
+
+	public Ledger getLedger() {
+		return ledger;
+	}
 
 	public User(String name){
 		this.name = name;
 		this.transactions = new ArrayList<Transaction>();
-		ledger = new Ledger();
+		this.ledger = new Ledger();
+		this.cache = new ArrayList<>();
 		generateKeys();
+		
 		//uncomment this segment to have users with public key modulus and exponent as name
 		//		try {
 		//			RSAPublicKey rspk=(RSAPublicKey)  publicKey;
@@ -110,11 +117,6 @@ public class User {
 		return r.nextInt((max - min) + 1) + min;
 	}
 
-	//	// It lets a user solve a complex puzzle and returns true if the user managed to solve it and false otherwise
-	//	public boolean solvedComplexPuzzle(){ //not needed since will directly call the other function when finishes puzzle
-	//		return false;
-	//	}
-
 	public ArrayList<User> selectTargetPeers(){
 		ArrayList<User> nearPeers = Main.networkGraph.get(this.getName());
 		ArrayList<User> nearPeersCopy = new ArrayList<>();
@@ -183,7 +185,6 @@ public class User {
 
 				if(transactions.size() == Ledger.getBlocksize()){
 					createBlock();
-					transactions.clear();
 					appendToLogs("User "+name+" created a block and appended it to the ledger");
 				}
 
@@ -218,6 +219,7 @@ public class User {
 		String encoded = Base64.getEncoder().encodeToString(hash);
 		return encoded;
 	}
+	
 	//verify that the hashing of block is consistent to what the block contains
 	public Boolean verifyBlockHash(Block block){
 		String hashStr=block.getTransactions().toString()+block.getPrevBlock().getHash()+block.getNonce(); //TODO: handle genesis block
@@ -236,6 +238,7 @@ public class User {
 		}
 
 	}
+	
 	public void createBlock() throws IOException{
 		try {
 			boolean isContainsNonce=false;
@@ -245,9 +248,34 @@ public class User {
 				isContainsNonce=ledger.containsNonce(nonce);
 			}
 			while(isContainsNonce || !nonce.substring(0, 2).equals("00")); //make sure starts with 00 and not in ledger before (puzzle)
-			String hash=generateHash(nonce);
+			String hash = generateHash(nonce);
 			Block block = new Block(transactions,nonce,hash);
-			//			ledger.appendBlock(block);
+
+			block.linkPrevBlock(ledger.lastBlock());
+			appendBlock(block);
+			announceBlock(block);
+		} 
+		catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void createBlock(ArrayList<Transaction> trans) throws IOException{
+		try {
+			boolean isContainsNonce=false;
+			String nonce;
+			do{
+				nonce=generateNonce();
+				isContainsNonce=ledger.containsNonce(nonce);
+			}
+			// Make sure the nonce starts with 00 and not in ledger before (puzzle)
+			while(isContainsNonce || !nonce.startsWith("00"));
+			String hash = generateHash(nonce);
+			Block block = new Block(trans,nonce,hash);
+
+			block.linkPrevBlock(ledger.lastBlock());
+			appendBlock(block);
 			announceBlock(block);
 		} 
 		catch (NoSuchAlgorithmException e) {
@@ -258,21 +286,47 @@ public class User {
 
 	public void announceBlock(Block block) throws IOException{
 		// If managed to solve a complex puzzle, a user can then announce a block
-		//		if(solvedComplexPuzzle()){ //separate function not needed since if complex puzzle is solved then announceBlock function gets called
 		ProposedBlock proposedBlock = new ProposedBlock(block.getTransactions(), block.getNonce(), this, block.getHash());
 		ArrayList<User> randomTargetPeers = selectTargetPeers();
 		for(User peer : randomTargetPeers){
 			peer.handleProposedBlock(proposedBlock);
 		}
-		//		}
 	}
 
+	public void updateLedgerAndCache(ProposedBlock proposedBlock){
+		// Append the block to the ledger if it can be appended
+		if(ledger.canBeAppended(proposedBlock)){
+			appendBlock(proposedBlock);
+		}
+		
+		// Append the block to the cache if it can be appended
+		if(cache.isEmpty() || proposedBlock.getPrevBlock().equals(cache.get(cache.size()-1))){
+			cache.add(proposedBlock);
+		}
+		
+		// If the cache is larger than the ledger, swap them 
+		if(cache.size() > ledger.getBlocks().size()){
+			ArrayList<Block> temp = new ArrayList<>();
+			temp.addAll(ledger.getBlocks());
+			
+			ledger.getBlocks().clear();
+			ledger.getBlocks().addAll(cache);
+			cache.addAll(temp);
+		}
+		
+		// If the ledger has 3 blocks more than the cache, clear the cache
+		if(ledger.getBlocks().size() - cache.size() >= 3){
+			cache.clear();
+		}
+	}
+	
 	public void handleProposedBlock(ProposedBlock proposedBlock) throws IOException{
 		String proposerName = proposedBlock.proposer.getName();
-		appendToLogs("user "+name + " recieved a block from user "+ proposerName);
-		appendToLogs("user "+name + " verifying the block first ");
-		if(verifyBlockHash(proposedBlock)){ 	//verify that the hashing of block is consistent with the contents of the block first, if not it will be ignored
-			appendToLogs("user "+name + " sucessfully verified the recieved block");
+		appendToLogs(name + " : Received a block from "+ proposerName + ". Verifying it.");
+		
+		// Verify that the hashing of block is consistent with the contents of the block first, if not it will be ignored
+		if(verifyBlockHash(proposedBlock)){
+			appendToLogs(name + " : Sucessfully verified the recieved block");
 			// Users do not vote for blocks they proposed
 			if(proposerName.equals(name)){
 				appendToLogs(name + " : Cannot vote since I proposed this block");
@@ -286,26 +340,29 @@ public class User {
 			}
 
 			proposedBlock.uniqueVoters.add(name);
-			if(proposedBlock.uniqueVoters.size() == Main.usersCount){
+			if(proposedBlock.uniqueVoters.size() == Main.usersCount - 1){
 				// All users -except the proposer- voted for the block
 				if(proposedBlock.confirmations > proposedBlock.rejections){
 					appendToLogs(proposerName + " : My block is accepted");
-					proposedBlock.proposer.appendBlock(proposedBlock);
-					Main.ledger.appendBlock(proposedBlock);
+					proposedBlock.proposer.transactions.clear();
+					
+					// Update all users to include the accepted block
+					Main.mainLedger.appendBlock(proposedBlock);
 					Main.updateUsersLedgers();
-					// @Mamdouh >>>>>>>>>>>>>> Update all users with the new block
 				}
 				else{
-					appendToLogs(proposerName + " : My block is orphaned");
-					// @Tokyo >>>>>>>>>>>>>> Handle orphaned block
+					appendToLogs(proposerName + " : My block is orphaned. Trying again.");
+					proposedBlock.proposer.createBlock(proposedBlock.getTransactions());
 				}
 			}
 			else{
-				if(ledger.canBeAppended(proposedBlock))
+				if(ledger.canBeAppended(proposedBlock)){
 					proposedBlock.confirmations++;
-				else
+					updateLedgerAndCache(proposedBlock);
+				}
+				else{
 					proposedBlock.rejections++;
-
+				}
 
 				// After voting, pass the block to a random set of near peers
 				ArrayList<User> randomTargetPeers = selectTargetPeers();
@@ -315,7 +372,7 @@ public class User {
 			}
 		}
 		else {
-			appendToLogs("user "+name + " ignored block since computed hash and block's hash are different");
+			appendToLogs(name + " : Ignored block since computed hash and block's hash are different");
 		}
 	}
 
