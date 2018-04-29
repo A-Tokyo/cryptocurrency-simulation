@@ -12,6 +12,14 @@ public class Block {
 		this.nonce=nonce;
 		this.hash=hash;
 	}
+	public Block(ArrayList<Transaction> transactions,String nonce,String hash,Block prevBlock){
+		this.transactions = transactions;
+		this.nonce=nonce;
+		this.hash=hash;
+		this.prevBlock=prevBlock;
+		this.prevHash=prevBlock.hash;
+	}
+	
 	
 	public ArrayList<Transaction> getTransactions(){
 		return transactions;
@@ -32,13 +40,11 @@ public class Block {
 		return hash;
 	}
 	
-	public Block getCopy(){
-		return new Block(transactions, nonce,hash);
+	public Block getCopy(Block prevBlock){
+		return new Block(transactions, nonce,hash,prevBlock);
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
+	public boolean equalsHash(Object obj) {
 		Block block=(Block) obj;
 		
 		return this.hash==block.hash;

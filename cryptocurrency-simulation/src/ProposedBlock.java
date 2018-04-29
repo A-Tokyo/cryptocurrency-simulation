@@ -6,11 +6,11 @@ public class ProposedBlock extends Block{
 	ArrayList<User> rejectedVote;
 	int confirmations, rejections;
 
-	public ProposedBlock(ArrayList<Transaction> transactions, String nonce, User proposer,String hash) {
-		super(transactions, nonce, hash);
+	public ProposedBlock(Block block,User proposer) {
+		super(block.getTransactions(), block.getNonce(), block.getHash(),block.getPrevBlock());
 		this.proposer = proposer;
 		this.uniqueVoters = new ArrayList<>();
 		this.confirmations = 0;
 		this.rejections = 0;
-	}
+	} 
 }

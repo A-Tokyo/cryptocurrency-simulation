@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -29,15 +30,9 @@ public class User {
 		this.transactions = new ArrayList<Transaction>();
 		ledger = new Ledger();
 		generateKeys();
-		//uncomment this segment to have users with public key modulus and exponent as name
-		//		try {
-		//			RSAPublicKey rspk=(RSAPublicKey)  publicKey;
-		//			this.name=rspk.getModulus().toString()+rspk.getPublicExponent().toString();
-		//
-		//		} catch (NoSuchAlgorithmException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
+		//uncomment this segment to have users with public key modulus and exponent as name //TODO: uncomment
+//		RSAPublicKey rspk=(RSAPublicKey)  publicKey;
+//		this.name=rspk.getModulus().toString()+rspk.getPublicExponent().toString();
 	}
 
 	public void appendToLogs(String text) throws IOException{
@@ -176,7 +171,7 @@ public class User {
 			// Receive and see if a block can be formed
 			PublicKey pk = getOriginatorPublicKey(transaction);
 			appendToLogs("User "+name+" authenticating transaction "+transaction.getId() +" first before accepting and announcing to peers");
-			System.out.println();
+			System.out.print(".");
 			if(verifySignature(transaction.getSignature(),transaction.getContent(),pk)){
 				appendToLogs("Authentication successful, user "+name+ " will add transaction "+transaction.getId() +" and forward to peers");
 				transactions.add(transaction);
@@ -209,9 +204,6 @@ public class User {
 	}
 
 	public String generateHash(String nonce) throws NoSuchAlgorithmException{
-//		Block prevBlock=ledger.lastBlock(); //TODO: handle genesis block
-//		if(prevBlock==null)
-//			prevBlock=;
 		String hashStr= transactions.toString()+ledger.lastBlock().getHash()+nonce; //TODO: handle genesis block
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
 		byte[] hash = digest.digest(hashStr.getBytes(StandardCharsets.UTF_8));
@@ -226,9 +218,7 @@ public class User {
 			digest = MessageDigest.getInstance("SHA-256");
 			byte[] hash = digest.digest(hashStr.getBytes(StandardCharsets.UTF_8));
 			String encoded = Base64.getEncoder().encodeToString(hash);
-			if(block.getHash().equals(encoded))
-				return true;
-			else return false;
+			return block.getHash().equals(encoded);
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -247,7 +237,7 @@ public class User {
 			while(isContainsNonce || !nonce.substring(0, 2).equals("00")); //make sure starts with 00 and not in ledger before (puzzle)
 			String hash=generateHash(nonce);
 			Block block = new Block(transactions,nonce,hash);
-			//			ledger.appendBlock(block);
+			ledger.appendBlock(block);
 			announceBlock(block);
 		} 
 		catch (NoSuchAlgorithmException e) {
@@ -259,7 +249,7 @@ public class User {
 	public void announceBlock(Block block) throws IOException{
 		// If managed to solve a complex puzzle, a user can then announce a block
 		//		if(solvedComplexPuzzle()){ //separate function not needed since if complex puzzle is solved then announceBlock function gets called
-		ProposedBlock proposedBlock = new ProposedBlock(block.getTransactions(), block.getNonce(), this, block.getHash());
+		ProposedBlock proposedBlock = new ProposedBlock(block,this);
 		ArrayList<User> randomTargetPeers = selectTargetPeers();
 		for(User peer : randomTargetPeers){
 			peer.handleProposedBlock(proposedBlock);
@@ -272,7 +262,7 @@ public class User {
 		appendToLogs("user "+name + " recieved a block from user "+ proposerName);
 		appendToLogs("user "+name + " verifying the block first ");
 		if(verifyBlockHash(proposedBlock)){ 	//verify that the hashing of block is consistent with the contents of the block first, if not it will be ignored
-			appendToLogs("user "+name + " sucessfully verified the recieved block");
+			appendToLogs("user "+name + " sucessfully verified the recieved block's content and hash since computed hash and the stated block's hash are the same");
 			// Users do not vote for blocks they proposed
 			if(proposerName.equals(name)){
 				appendToLogs(name + " : Cannot vote since I proposed this block");
