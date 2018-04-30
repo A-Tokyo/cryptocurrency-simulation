@@ -40,7 +40,7 @@ public class Main {
 	
 	public static void sendTransactions() throws Exception {
 		int setSize = networkGraph.keySet().size();
-		int senders = randomInt(1, setSize);
+		int senders = randomInt(1, 1);
 		for (int i = 0; i < senders; i++) {
 			int randInt = randomInt(0, setSize-1);
 			User user = usersList.get(randInt);

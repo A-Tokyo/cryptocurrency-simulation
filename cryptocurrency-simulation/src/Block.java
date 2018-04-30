@@ -44,8 +44,10 @@ public class Block {
 		return new Block(transactions, nonce,hash,prevBlock);
 	}
 	
-	public boolean equalHashes(Block other){
-		return this.hash.equals(other.hash);
+	@Override
+	public boolean equals(Object obj) {
+		Block block = (Block) obj;
+		return hash.equals(block.getHash());
 	}
 
 	public void linkPrevBlock(Block prev){
